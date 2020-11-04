@@ -1,0 +1,6 @@
+<launch>
+        <node pkg="pedestrian_detector" type="pedestrian_observer.py" name="pedestrian_observer">
+        </node>
+
+
+</launch>
