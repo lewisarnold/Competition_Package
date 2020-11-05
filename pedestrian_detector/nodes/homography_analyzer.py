@@ -108,12 +108,12 @@ class Homography_Analyzer():
             # homography = cv2.polylines(train_frame, [np.int32(dst)], True, (255, 0, 0), 3)
 
             cv2.imshow("", marked)
-            cv2.waitKey()
+            cv2.waitKey(1)
             return True
 
         else:
             cv2.imshow("", image_with_matches)
-            cv2.waitKey()
+            cv2.waitKey(1)
             return False
 
 
