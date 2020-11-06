@@ -70,8 +70,6 @@ class Window(QtWidgets.QMainWindow):
 
         self.message_received_signal.connect(self.SLOT_message_received)
 
-        self.start_timer_QPB.clicked.connect(self.SLOT_start_timer)
-
         # Set-up ROS subscribers
         self.sub_license_plate = rospy.Subscriber("license_plate", String, 
                                                   self.licensePlate_callback)
@@ -125,14 +123,9 @@ class Window(QtWidgets.QMainWindow):
         self.log_msg("Message received: {}".format(license_string))
 
         teamID, teamPswd, plateLocation, plateID = str(license_string).split(',')
-        if not plateLocation.isdigit():
-            self.log_msg("Plate location is not a number.")
-            return
-
-        plateLocation = int(plateLocation)
-
-        # Use to register the team name (not for points)
-        if plateLocation == 0:
+        
+        # Use to start the timer and register the team name (not for points)
+        if plateLocation == '0':
             # Update team ID and log file name:
             if teamID !=  self.team_ID_value_QL.text():
                 now = datetime.now()
@@ -141,10 +134,23 @@ class Window(QtWidgets.QMainWindow):
                 self.log_file_value_QL.setText(self.log_file_path)
 
             self.team_ID_value_QL.setText(teamID)
+
+            self.start_timer()
             return
 
+        # Use to stop the timer
+        if plateLocation == '-1':
+            self.stop_timer()
+            return
+
+        if not plateLocation.isdigit():
+            self.log_msg("Plate location is not a number.")
+            return
+
+        plateLocation = int(plateLocation)
+
         # Check out of bounds plate location
-        if plateLocation < 0 or plateLocation > 8:
+        if plateLocation < -1 or plateLocation > 8:
             self.log_msg("Invalid plate location: {}".format(plateLocation))
             return
 
@@ -202,8 +208,19 @@ class Window(QtWidgets.QMainWindow):
         
         self.penalties_scores_QTW.item(0, 1).setText(str(numEvents))
 
+    def SLOT_timer_update(self):
+        ROUND_DURATION_s = 240
+        self.elapsed_time_s += 1
+        self.sim_current_time_s = rospy.get_time()
+        sim_time_s = self.sim_current_time_s - self.sim_start_time_s
+        self.elapsed_time_value_QL.setText(
+            "{:03d} sec".format(int(sim_time_s)))
+        if (sim_time_s > ROUND_DURATION_s):
+            self.log_msg("Out of time: {}sec sim time (real time: {}sec).".
+                format(sim_time_s, self.elapsed_time_s))
+            self.timer.stop()
 
-    def SLOT_start_timer(self):
+    def start_timer(self):
         self.elapsed_time_s = 0
         self.sim_start_time_s = rospy.get_time()
         self.elapsed_time_value_QL.setText(
@@ -211,19 +228,12 @@ class Window(QtWidgets.QMainWindow):
         self.timer.start(1000)
         self.log_msg("Timer started.")
 
-
-    def SLOT_timer_update(self):
-        ROUND_DURATION_s = 240
-        self.elapsed_time_s += 1
+    def stop_timer(self):
         self.sim_current_time_s = rospy.get_time()
-        self.elapsed_time_value_QL.setText(
-            "{:03d} sec".format(self.elapsed_time_s))
         sim_time_s = self.sim_current_time_s - self.sim_start_time_s
-        if (sim_time_s > ROUND_DURATION_s):
-            self.log_msg("Out of time: {}sec sim time (real time: {}sec).".
+        self.log_msg("Timer stopped: {}sec sim time (real time: {}sec).".
                 format(sim_time_s, self.elapsed_time_s))
-            self.timer.stop()
-
+        self.timer.stop()
 
     def update_license_total(self):
         licenseTotal = 0

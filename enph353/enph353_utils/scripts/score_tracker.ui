@@ -587,30 +587,10 @@ p, li { white-space: pre-wrap; }
     <string>DEFAULT</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="start_timer_QPB">
-   <property name="geometry">
-    <rect>
-     <x>470</x>
-     <y>530</y>
-     <width>111</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
-     <stylestrategy>PreferDefault</stylestrategy>
-    </font>
-   </property>
-   <property name="text">
-    <string>&amp;Start
-Time</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="elapsed_time_value_QL">
    <property name="geometry">
     <rect>
-     <x>740</x>
+     <x>670</x>
      <y>540</y>
      <width>81</width>
      <height>31</height>
@@ -623,7 +603,7 @@ Time</string>
   <widget class="QLabel" name="elapsed_time_label_QL">
    <property name="geometry">
     <rect>
-     <x>590</x>
+     <x>520</x>
      <y>540</y>
      <width>131</width>
      <height>31</height>
