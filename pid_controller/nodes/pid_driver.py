@@ -7,7 +7,7 @@ import numpy as np
 import cv2
 from cv_bridge import CvBridge
 
-FULL_SPEED_LINEAR = 0.6
+FULL_SPEED_LINEAR = 0.5
 
 ANGULAR_PROPORTIONAL = 0.15
 
@@ -45,7 +45,6 @@ class RobotDriver():
 
         velocity_command.angular.z = 0.5
         velocity_command.linear.x = FULL_SPEED_LINEAR
-        #rospy.sleep(0.05)
 
         self.velocity_command_publisher.publish(velocity_command)
 
