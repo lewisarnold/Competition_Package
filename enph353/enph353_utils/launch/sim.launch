@@ -16,8 +16,6 @@
 		<arg name="spawn_vehicles" value="$(arg spawn_vehicles)"/>
 	</include>
 
-	<include file="$(find pid_controller)/launch/pid_controller.launch"/>
-
 	<node pkg="enph353_gazebo" type="license_server.py" name="license_server" output="screen"/>
 
 </launch>

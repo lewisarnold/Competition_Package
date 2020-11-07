@@ -3,10 +3,23 @@
 import rospy
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import Image
+from std_msgs.msg import String
 import numpy as np
 import cv2
 from cv_bridge import CvBridge
 from datetime import datetime
+
+TEAM_ID = "KL"
+TEAM_PW = "123"
+
+START = 1
+STOP = 0
+
+PEDESTRIAN_COLOUR_LOWER_BOUND = (50, 40, 20)
+PEDESTRIAN_COLOUR_UPPER_BOUND = (110, 80, 70)
+
+DANGER_ZONE_X = (300, 980)
+DANGER_ZONE_Y = (450, 550)
 
 FULL_SPEED_LINEAR = 0.3
 
@@ -58,11 +71,13 @@ NO_READING_ANGULAR_VELOCITY = 20 * FULL_SPEED_LINEAR * NO_READING_LINEAR_DECREAS
 SHOW_ROAD_VISION = 0
 WAITKEY = 0
 
+WAIT = False
 
 class RobotDriver():
     def drive_robot(self):
         self.last_side_left = True
         self.velocity_command_publisher = rospy.Publisher('/R1/cmd_vel', Twist, queue_size=1)
+        self.license_plate_publisher = rospy.Publisher('/license_plate', String, queue_size=1)
 
         self.bridge = CvBridge()
 
@@ -72,24 +87,70 @@ class RobotDriver():
         rospy.init_node('pid_commander')
 
         self.rate = rospy.Rate(2)
-        rospy.sleep(10)
+
+        if WAIT:
+            rospy.sleep(15)
+
+        self.activate_timer(START)
         self.initial_turn_sequence()
 
         rospy.Subscriber('/R1/pi_camera/image_raw', Image, self.on_image_recieve)
 
-
-
-
         rospy.spin()
+
+    def pedestrian_clear(self):
+        mask = cv2.inRange(self.cv_raw, PEDESTRIAN_COLOUR_LOWER_BOUND, PEDESTRIAN_COLOUR_UPPER_BOUND)
+
+        danger_zone = mask[DANGER_ZONE_Y[0]:DANGER_ZONE_Y[1], DANGER_ZONE_X[0]:DANGER_ZONE_X[1]]
+
+        result = True
+        for i in range (danger_zone.shape[1]):
+            if np.average(danger_zone[:,i]) > 200:
+                print(np.average(danger_zone[:,i]))
+                result = False
+                break
+
+        pts = np.array([[DANGER_ZONE_X[0], DANGER_ZONE_Y[0]],
+               [DANGER_ZONE_X[0], DANGER_ZONE_Y[1]],
+               [DANGER_ZONE_X[1], DANGER_ZONE_Y[1]],
+               [DANGER_ZONE_X[1], DANGER_ZONE_Y[0]]])
+
+        pts = pts.reshape((-1, 1, 2))
+
+        cv2.imshow("", cv2.polylines(self.cv_raw, [pts], True, (255, 0, 0), 1))
+        cv2.waitKey(1)
+
+        return result
+
+    def activate_timer(self, start):
+        if start:
+            message = String()
+            message.data = TEAM_ID + "," + TEAM_PW + "," + str(0) + "," + "AAAA"
+            self.license_plate_publisher.publish(message)
+        else:
+            message = String()
+            message.data = TEAM_ID + "," + TEAM_PW + "," + str(-1) + "," + "ZZZZ"
+            self.license_plate_publisher.publish(message)
+
+    def publish_plate(self, location, plate_number):
+        message = String()
+        message.data = TEAM_ID + "," + TEAM_PW + "," + str(location) + "," + plate_number
+        self.license_plate_publisher.publish(message)
 
     def on_image_recieve(self, camera_image_raw):
         self.cv_raw = self.bridge.imgmsg_to_cv2(camera_image_raw, "bgr8")
 
-        standard_velocity_command = self.standard_drive_velocity(int(self.cv_raw.shape[1] / 2))
+        velocity_command = self.standard_drive_velocity(int(self.cv_raw.shape[1] / 2))
+
+        # if not self.pedestrian_clear():
+        #     velocity_command.linear.x = 0
+        #     velocity_command.angular.z = 0
+        #     self.velocity_command_publisher.publish(velocity_command)
+        #     rospy.sleep(2)
 
         self.find_license_plate()
 
-        self.velocity_command_publisher.publish(standard_velocity_command)
+        self.velocity_command_publisher.publish(velocity_command)
 
     def find_license_plate(self):
         found_car, mask, location = self.found_parked_car()
@@ -102,7 +163,7 @@ class RobotDriver():
 
             cv2.imwrite("/home/fizzer/ros_ws/src/2020T1_competition/pid_controller/nodes/LicensePlates/"
                         + str(datetime.now()) + ".png", license_plate)
-            print("saved")
+            self.publish_plate(location, "BBBB")
 
             # pts = np.array([[LICENSE_PLATE_CAR_VISION_X[0] + left, LICENSE_PLATE_CAR_VISION_Y[0] + top],
             #        [LICENSE_PLATE_CAR_VISION_X[0] + left, LICENSE_PLATE_CAR_VISION_Y[0] + top + LICENSE_PLATE_HEIGHT],
@@ -115,8 +176,6 @@ class RobotDriver():
             # cv2.imshow("main", self.cv_raw)
             # cv2.imshow(str(location), license_plate)
             # cv2.waitKey(1)
-
-
 
     def find_edge_of_label(self, mask):
         license_plate_mask = mask[LICENSE_PLATE_CAR_VISION_Y[0]:LICENSE_PLATE_CAR_VISION_Y[1],
@@ -154,7 +213,7 @@ class RobotDriver():
 
         top = 0
         set_top = False
-        for j in range(width):
+        for j in range(height):
             if row_average[j] < LICENSE_PLATE_THRESHOLD_Y:
                 top = j
                 set_top = True
