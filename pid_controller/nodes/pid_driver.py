@@ -6,8 +6,9 @@ from sensor_msgs.msg import Image
 import numpy as np
 import cv2
 from cv_bridge import CvBridge
+from datetime import datetime
 
-FULL_SPEED_LINEAR = 0.4
+FULL_SPEED_LINEAR = 0.3
 
 ANGULAR_PROPORTIONAL = 0.15
 
@@ -22,7 +23,10 @@ PARKED_CAR_VISION_Y = (370, 470)
 LICENSE_PLATE_CAR_VISION_X = (245, 380)
 LICENSE_PLATE_CAR_VISION_Y = (383, 510)
 
-LICENSE_PLATE_THRESHOLD = 120
+LICENSE_PLATE_HEIGHT = 20
+
+LICENSE_PLATE_THRESHOLD_X = 120
+LICENSE_PLATE_THRESHOLD_Y = 20
 
 # PARKED_CAR_AVG_THRESHOLD = {
 #     1: 204,
@@ -66,12 +70,15 @@ class RobotDriver():
         self.parked_car_counter = 0
 
         rospy.init_node('pid_commander')
-        rospy.sleep(1)
 
+        self.rate = rospy.Rate(2)
+        rospy.sleep(10)
         self.initial_turn_sequence()
 
         rospy.Subscriber('/R1/pi_camera/image_raw', Image, self.on_image_recieve)
-        self.rate = rospy.Rate(2)
+
+
+
 
         rospy.spin()
 
@@ -85,11 +92,29 @@ class RobotDriver():
         self.velocity_command_publisher.publish(standard_velocity_command)
 
     def find_license_plate(self):
-        found_car, mask = self.found_parked_car()
+        found_car, mask, location = self.found_parked_car()
         if found_car:
-            left, right = self.find_edge_of_label(mask)
-            print(left)
-            print(right)
+            left, right, top = self.find_edge_of_label(mask)
+
+            license_plate = self.cv_raw[LICENSE_PLATE_CAR_VISION_Y[0] + top:LICENSE_PLATE_CAR_VISION_Y[0] + top +
+                                                                    LICENSE_PLATE_HEIGHT,
+                    LICENSE_PLATE_CAR_VISION_X[0] + left: LICENSE_PLATE_CAR_VISION_X[0] + right]
+
+            cv2.imwrite("/home/fizzer/ros_ws/src/2020T1_competition/pid_controller/nodes/LicensePlates/"
+                        + str(datetime.now()) + ".png", license_plate)
+            print("saved")
+
+            # pts = np.array([[LICENSE_PLATE_CAR_VISION_X[0] + left, LICENSE_PLATE_CAR_VISION_Y[0] + top],
+            #        [LICENSE_PLATE_CAR_VISION_X[0] + left, LICENSE_PLATE_CAR_VISION_Y[0] + top + LICENSE_PLATE_HEIGHT],
+            #        [LICENSE_PLATE_CAR_VISION_X[0] + right, LICENSE_PLATE_CAR_VISION_Y[0] + top + LICENSE_PLATE_HEIGHT],
+            #        [LICENSE_PLATE_CAR_VISION_X[0] + right, LICENSE_PLATE_CAR_VISION_Y[0] + top]])
+            #
+            # pts = pts.reshape((-1, 1, 2))
+            #
+            # # cv2.imshow("", cv2.polylines(self.cv_raw, [pts], True, (255, 0, 0), 1))
+            # cv2.imshow("main", self.cv_raw)
+            # cv2.imshow(str(location), license_plate)
+            # cv2.waitKey(1)
 
 
 
@@ -107,7 +132,7 @@ class RobotDriver():
         left = 0
         set_left = False
         for j in range(width):
-            if column_average[j] > LICENSE_PLATE_THRESHOLD:
+            if column_average[j] > LICENSE_PLATE_THRESHOLD_X:
                 left = j
                 set_left = True
                 break
@@ -115,12 +140,26 @@ class RobotDriver():
         right = width - 1
         set_right = False
         for j in reversed(range(left, width)):
-            if column_average[j] > LICENSE_PLATE_THRESHOLD:
+            if column_average[j] > LICENSE_PLATE_THRESHOLD_X:
                 right = j
                 set_right = True
                 break
 
-        return left, right
+        height = license_plate_mask.shape[0]
+
+        row_average = np.zeros(height)
+
+        for k in range(height):
+            row_average[k] = np.average(license_plate_mask[k, :])
+
+        top = 0
+        set_top = False
+        for j in range(width):
+            if row_average[j] < LICENSE_PLATE_THRESHOLD_Y:
+                top = j
+                set_top = True
+                break
+        return left, right, top
 
     def found_parked_car(self):
         self.parked_car_interval_counter = self.parked_car_interval_counter + 1
@@ -142,13 +181,13 @@ class RobotDriver():
         #print(self.parked_car_counter)
 
         if vision_section_avg >  PARKED_CAR_AVG_THRESHOLD_SINGLE and self.parked_car_interval_counter > PARKED_CAR_MINIMUM_INTERVAL:
-            print(PARKED_CAR_ORDER[self.parked_car_counter])
+            location_id = PARKED_CAR_ORDER[self.parked_car_counter]
             self.parked_car_counter = 1 + self.parked_car_counter
             if self.parked_car_counter >= len(PARKED_CAR_ORDER):
                 self.parked_car_counter = 0
 
             self.parked_car_interval_counter = 0
-            return True, car_mask_total
+            return True, car_mask_total, location_id
 
         # if vision_section_avg >  this_cars_threshold and self.parked_car_interval_counter > PARKED_CAR_MINIMUM_INTERVAL:
         #     print(PARKED_CAR_ORDER[self.parked_car_counter])
@@ -160,7 +199,7 @@ class RobotDriver():
         #     return True
 
         else:
-            return False, vision_section_mask
+            return False, car_mask_total, -1
 
             # vision_section_real = self.cv_raw[PARKED_CAR_VISION_Y[0]:PARKED_CAR_VISION_Y[1],
             #                       PARKED_CAR_VISION_X[0]:PARKED_CAR_VISION_X[1]]
