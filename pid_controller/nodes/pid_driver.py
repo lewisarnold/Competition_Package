@@ -9,6 +9,8 @@ import cv2
 from cv_bridge import CvBridge
 from datetime import datetime
 
+import csv
+
 TEAM_ID = "KL"
 TEAM_PW = "123"
 
@@ -71,7 +73,7 @@ NO_READING_ANGULAR_VELOCITY = 20 * FULL_SPEED_LINEAR * NO_READING_LINEAR_DECREAS
 SHOW_ROAD_VISION = 0
 WAITKEY = 0
 
-WAIT = False
+WAIT = True
 
 class RobotDriver():
     def drive_robot(self):
@@ -83,6 +85,9 @@ class RobotDriver():
 
         self.parked_car_interval_counter = 0
         self.parked_car_counter = 0
+
+        #MUST BE REMOVED FOR COMPETITION
+        self.true_plates =  self.init_plate_value()
 
         rospy.init_node('pid_commander')
 
@@ -161,9 +166,10 @@ class RobotDriver():
                                                                     LICENSE_PLATE_HEIGHT,
                     LICENSE_PLATE_CAR_VISION_X[0] + left: LICENSE_PLATE_CAR_VISION_X[0] + right]
 
-            cv2.imwrite("/home/fizzer/ros_ws/src/2020T1_competition/pid_controller/nodes/LicensePlates/"
-                        + str(datetime.now()) + ".png", license_plate)
-            self.publish_plate(location, "BBBB")
+            cv2.imwrite("/home/fizzer/ros_ws/src/2020T1_competition/pid_controller/nodes/Labeled/"
+                        + str(self.true_plates[location-1]) + ".png", license_plate)
+            self.init_plate_value()
+            self.publish_plate(location, str(self.true_plates[location-1]))
 
             # pts = np.array([[LICENSE_PLATE_CAR_VISION_X[0] + left, LICENSE_PLATE_CAR_VISION_Y[0] + top],
             #        [LICENSE_PLATE_CAR_VISION_X[0] + left, LICENSE_PLATE_CAR_VISION_Y[0] + top + LICENSE_PLATE_HEIGHT],
@@ -176,6 +182,18 @@ class RobotDriver():
             # cv2.imshow("main", self.cv_raw)
             # cv2.imshow(str(location), license_plate)
             # cv2.waitKey(1)
+
+    ## CANNOT BE USED IN COMPETITION
+    def init_plate_value(self):
+        LICENSE_PLATE_FILE = '/home/fizzer/ros_ws/src/2020T1_competition/enph353/enph353_gazebo/scripts/plates.csv'
+        with open(LICENSE_PLATE_FILE, "r") as plate_file:
+            platereader = csv.reader(plate_file)
+            true_plates = []
+            i = 0
+            for row in platereader:
+                true_plates.append(row[0])
+        return true_plates
+
 
     def find_edge_of_label(self, mask):
         license_plate_mask = mask[LICENSE_PLATE_CAR_VISION_Y[0]:LICENSE_PLATE_CAR_VISION_Y[1],

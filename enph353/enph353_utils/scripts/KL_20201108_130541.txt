@@ -1,0 +1,45 @@
+13:05:09.654: Position 1: AE48
+13:05:09.655: Position 2: CB99
+13:05:09.655: Position 3: AA01
+13:05:09.656: Position 4: TJ74
+13:05:09.657: Position 5: VO87
+13:05:09.657: Position 6: GJ87
+13:05:09.657: Position 7: YM79
+13:05:09.658: Position 8: GG26
+13:05:19.544: First command velocity received.
+13:05:41.412: Message received: KL,123,0,AAAA
+13:05:41.413: Timer started.
+13:05:43.339: Message received: KL,123,2,AA01
+13:05:43.340: Awarded: 0 pts
+13:05:45.992: Message received: KL,123,3,TJ74
+13:05:45.993: Awarded: 0 pts
+13:05:51.858: Message received: KL,123,4,VO87
+13:05:51.859: Awarded: 0 pts
+13:05:55.043: Message received: KL,123,5,GJ87
+13:05:55.046: Awarded: 0 pts
+13:05:57.784: Message received: KL,123,6,YM79
+13:05:57.785: Awarded: 0 pts
+13:06:03.634: Message received: KL,123,1,CB99
+13:06:03.635: Awarded: 0 pts
+13:06:55.085: Message received: KL,123,0,AAAA
+13:06:55.086: Timer started.
+13:06:56.747: Message received: KL,123,2,CB99
+13:06:56.748: Awarded: 6 pts
+13:06:56.749: Team total: 6 pts
+13:06:59.602: Message received: KL,123,3,AA01
+13:06:59.604: Awarded: 6 pts
+13:06:59.605: Team total: 12 pts
+13:07:05.402: Message received: KL,123,4,TJ74
+13:07:05.403: Awarded: 6 pts
+13:07:05.404: Team total: 18 pts
+13:07:08.539: Message received: KL,123,5,VO87
+13:07:08.540: Awarded: 6 pts
+13:07:08.541: Team total: 24 pts
+13:07:11.259: Message received: KL,123,6,GJ87
+13:07:11.260: Awarded: 6 pts
+13:07:11.263: Team total: 30 pts
+13:07:17.075: Message received: KL,123,1,AE48
+13:07:17.076: Awarded: 6 pts
+13:07:17.078: Team total: 36 pts
+13:07:20.276: Message received: KL,123,2,CB99
+13:07:20.277: Awarded: 6 pts
