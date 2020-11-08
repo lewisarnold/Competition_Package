@@ -1,0 +1,20 @@
+#!/usr/bin/env python
+
+import numpy as np
+import tensorflow as tf
+from tensorflow import keras
+
+license_file = ''
+location_file =  ''
+
+
+class Reader:
+	def __init__(self):
+		self.licence_model = tf.keras.models.load_model(license_file)
+		self.location_model = tf.keras.models.load_model(location_file)
+
+	def license_read(self, img):
+		return self.licence_model.predict(img)[0]
+
+	def location_read(self, img):
+		return self.location_model.predict(img)[0]
