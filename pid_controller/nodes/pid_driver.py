@@ -17,6 +17,17 @@ TEAM_PW = "123"
 START = 1
 STOP = 0
 
+FULL_SPEED_LINEAR = 0.425
+
+ANGULAR_PROPORTIONAL = 0.15
+
+TURNING_MONITOR_ZONE_X = (300, 350)
+TURNING_MONITOR_ZONE_Y = (400, 450)
+
+TURNING_THRESHOLD = 200
+
+TURNING_OVERRIDE = 2.5 * FULL_SPEED_LINEAR
+
 PEDESTRIAN_COLOUR_LOWER_BOUND = (50, 40, 20)
 PEDESTRIAN_COLOUR_UPPER_BOUND = (110, 80, 70)
 
@@ -35,10 +46,6 @@ CROSSWALK_MONITOR_ZONE_Y = (600, 719)
 
 CROSSWALK_THRESHOLD = 10
 MIN_TIME_BETWEEN_CROSSWALKS = 5 #s
-
-FULL_SPEED_LINEAR = 0.425
-
-ANGULAR_PROPORTIONAL = 0.15
 
 ROAD_FINDING_AVERAGING_THRESHOLD = 110
 
@@ -78,7 +85,7 @@ NO_READING_ANGULAR_VELOCITY = 20 * FULL_SPEED_LINEAR * NO_READING_LINEAR_DECREAS
 SHOW_ROAD_VISION = 0
 WAITKEY = 0
 
-WAIT = True
+WAIT = False
 
 class RobotDriver():
     def drive_robot(self):
@@ -92,8 +99,12 @@ class RobotDriver():
         self.parked_car_counter = 0
 
         self.last_crosswalk_time = datetime.now() - timedelta(seconds=MIN_TIME_BETWEEN_CROSSWALKS)
+        self.crosswalk_count = 0
+
+        self.turning_count = 0
+
         self.pedestrian_aside = True
-        self.in_crosswalk = False
+
 
         #MUST BE REMOVED FOR COMPETITION
         self.true_plates =  self.init_plate_value()
@@ -118,6 +129,12 @@ class RobotDriver():
 
         velocity_command = self.standard_drive_velocity(int(self.cv_raw.shape[1] / 2))
 
+        if self.crosswalk_count >= 2 and self.turn_available() and self.turning_count < 10:
+            if velocity_command.angular.z < TURNING_OVERRIDE:
+                self.turning_count = self.turning_count + 1
+                print(self.turning_count)
+                velocity_command.angular.z = TURNING_OVERRIDE
+
         safe_to_drive, just_stopped = self.safe_to_drive_through_crosswalk()
 
         if not safe_to_drive:
@@ -131,7 +148,29 @@ class RobotDriver():
         else:
             self.velocity_command_publisher.publish(velocity_command)
 
+        #self.velocity_command_publisher.publish(velocity_command)
+
+
         self.find_license_plate()
+
+    def turn_available(self):
+        vision_square = self.cv_raw[TURNING_MONITOR_ZONE_Y[0]:TURNING_MONITOR_ZONE_Y[1], TURNING_MONITOR_ZONE_X[0]:TURNING_MONITOR_ZONE_X[1]]
+        mask = cv2.inRange(vision_square, ROAD_COLOUR_LOWER_BOUND, ROAD_COLOUR_UPPER_BOUND)
+
+        return np.average(mask) > TURNING_THRESHOLD
+
+        # print(np.average(mask))
+        #
+        # pts = np.array([[TURNING_MONITOR_ZONE_X[0], TURNING_MONITOR_ZONE_Y[0]],
+        #                 [TURNING_MONITOR_ZONE_X[0], TURNING_MONITOR_ZONE_Y[1]],
+        #                 [TURNING_MONITOR_ZONE_X[1], TURNING_MONITOR_ZONE_Y[1]],
+        #                 [TURNING_MONITOR_ZONE_X[1], TURNING_MONITOR_ZONE_Y[0]]])
+        #
+        # pts = pts.reshape((-1, 1, 2))
+        #
+        # cv2.imshow("", cv2.polylines(self.cv_raw, [pts], True, (255, 0, 0), 1))
+        # cv2.imshow("mask", mask)
+        # cv2.waitKey(1)
 
     def safe_to_drive_through_crosswalk(self):
         if not self.pedestrian_aside:
@@ -157,6 +196,7 @@ class RobotDriver():
 
         if np.average(mask) > CROSSWALK_THRESHOLD:
             self.last_crosswalk_time = datetime.now()
+            self.crosswalk_count = self.crosswalk_count + 1
             return True
 
         else:
@@ -204,7 +244,6 @@ class RobotDriver():
     def find_license_plate(self):
         found_car, location = self.found_parked_car()
         if found_car:
-            print("car")
             left, right, top = self.find_edge_of_label()
 
             license_plate = self.cv_raw[LICENSE_PLATE_CAR_VISION_Y[0] + top:LICENSE_PLATE_CAR_VISION_Y[0] + top +
