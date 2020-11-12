@@ -20,21 +20,21 @@ STOP = 0
 PEDESTRIAN_COLOUR_LOWER_BOUND = (50, 40, 20)
 PEDESTRIAN_COLOUR_UPPER_BOUND = (110, 80, 70)
 
-PEDESTRAIN_MONITOR_ZONE_X = (430, 790)
-PEDESTRAIN_MONITOR_ZONE_Y = (410, 430)
+PEDESTRAIN_MONITOR_ZONE_X = (420, 812)
+PEDESTRAIN_MONITOR_ZONE_Y = (410, 500)
 
 PEDESTRAIN_WAIT = 6 #*0.5s
 
-PEDESTRAIN_THRESHOLD = 25
+PEDESTRAIN_THRESHOLD = 10
 
 CROSSWALK_COLOUR_LOWER_BOUND = (115, 250, 250)
 CROSSWALK_COLOUR_UPPER_BOUND = (125, 255, 255)
 
 CROSSWALK_MONITOR_ZONE_X = (638, 641)
-CROSSWALK_MONITOR_ZONE_Y = (670, 675)
+CROSSWALK_MONITOR_ZONE_Y = (600, 719)
 
-CROSSWALK_THRESHOLD = 100
-MIN_TIME_BETWEEN_CROSSWALKS = 6 #s
+CROSSWALK_THRESHOLD = 10
+MIN_TIME_BETWEEN_CROSSWALKS = 5 #s
 
 FULL_SPEED_LINEAR = 0.3
 
@@ -56,7 +56,7 @@ LICENSE_PLATE_HEIGHT = 20
 LICENSE_PLATE_THRESHOLD_X = 120
 LICENSE_PLATE_THRESHOLD_Y = 20
 
-PARKED_CAR_AVG_THRESHOLD_SINGLE = 150
+PARKED_CAR_AVG_THRESHOLD_SINGLE = 140
 PARKED_CAR_ORDER = [2,3,4,5,6,1]
 PARKED_CAR_MINIMUM_INTERVAL = 20
 
@@ -78,7 +78,7 @@ NO_READING_ANGULAR_VELOCITY = 20 * FULL_SPEED_LINEAR * NO_READING_LINEAR_DECREAS
 SHOW_ROAD_VISION = 0
 WAITKEY = 0
 
-WAIT = False
+WAIT = True
 
 class RobotDriver():
     def drive_robot(self):
@@ -92,7 +92,8 @@ class RobotDriver():
         self.parked_car_counter = 0
 
         self.last_crosswalk_time = datetime.now() - timedelta(seconds=MIN_TIME_BETWEEN_CROSSWALKS)
-        self.pedestrian_in_way = False
+        self.pedestrian_aside = True
+        self.in_crosswalk = False
 
         #MUST BE REMOVED FOR COMPETITION
         self.true_plates =  self.init_plate_value()
@@ -107,7 +108,7 @@ class RobotDriver():
         self.activate_timer(START)
         self.initial_turn_sequence()
 
-        rospy.Subscriber('/R1/pi_camera/image_raw', Image, self.on_image_recieve)
+        self.subscriber = rospy.Subscriber('/R1/pi_camera/image_raw', Image, self.on_image_recieve)
 
         rospy.spin()
 
@@ -117,49 +118,50 @@ class RobotDriver():
 
         velocity_command = self.standard_drive_velocity(int(self.cv_raw.shape[1] / 2))
 
-        if self.pedestrian_in_way or self.at_crosswalk():
-            # pts = np.array([[PEDESTRAIN_MONITOR_ZONE_X[0], PEDESTRAIN_MONITOR_ZONE_Y[0]],
-            #                 [PEDESTRAIN_MONITOR_ZONE_X[0], PEDESTRAIN_MONITOR_ZONE_Y[1]],
-            #                 [PEDESTRAIN_MONITOR_ZONE_X[1], PEDESTRAIN_MONITOR_ZONE_Y[1]],
-            #                 [PEDESTRAIN_MONITOR_ZONE_X[1], PEDESTRAIN_MONITOR_ZONE_Y[0]]])
-            #
-            # pts = pts.reshape((-1, 1, 2))
-            #
-            # cv2.imshow("", cv2.polylines(self.cv_raw, [pts], True, (255, 0, 0), 1))
-            #cv2.waitKey()
+        safe_to_drive, just_stopped = self.safe_to_drive_through_crosswalk()
 
-            if not self.pedestrian_clear():
-                velocity_command.linear.x = 0
-                velocity_command.angular.z = 0
-                self.velocity_command_publisher.publish(velocity_command)
-                self.pedestrian_in_way = True
-                #rospy.sleep(PEDESTRAIN_WAIT)
-            else:
-                self.pedestrian_in_way = False
-                self.velocity_command_publisher.publish(velocity_command)
+        if not safe_to_drive:
+            velocity_command.linear.x = 0
+            velocity_command.angular.z = 0
+            self.velocity_command_publisher.publish(velocity_command)
+            if just_stopped:
+                self.subscriber.unregister()
+                rospy.sleep(2)
+                self.subscriber = rospy.Subscriber('/R1/pi_camera/image_raw', Image, self.on_image_recieve)
         else:
             self.velocity_command_publisher.publish(velocity_command)
 
         self.find_license_plate()
 
+    def safe_to_drive_through_crosswalk(self):
+        if not self.pedestrian_aside:
+            self.pedestrian_aside = self.pedestrian_clear()
+            return self.pedestrian_aside, False
+        elif self.at_crosswalk():
+            self.pedestrian_aside = self.pedestrian_clear()
+            return self.pedestrian_aside, True
+        else:
+            return True, False
+
+
     def at_crosswalk(self):
         time_change = datetime.now() - self.last_crosswalk_time
-
         if time_change.seconds < MIN_TIME_BETWEEN_CROSSWALKS:
             return False
 
-        hsv = cv2.cvtColor(self.cv_raw, cv2.COLOR_RGB2HSV)
-
-        monitor_zone = hsv[CROSSWALK_MONITOR_ZONE_Y[0]:CROSSWALK_MONITOR_ZONE_Y[1],
+        monitor_zone = self.cv_raw[CROSSWALK_MONITOR_ZONE_Y[0]:CROSSWALK_MONITOR_ZONE_Y[1],
                        CROSSWALK_MONITOR_ZONE_X[0]:CROSSWALK_MONITOR_ZONE_X[1]]
 
-        mask = cv2.inRange(monitor_zone, CROSSWALK_COLOUR_LOWER_BOUND, CROSSWALK_COLOUR_UPPER_BOUND)
+        hsv = cv2.cvtColor(monitor_zone, cv2.COLOR_RGB2HSV)
+
+        mask = cv2.inRange(hsv, CROSSWALK_COLOUR_LOWER_BOUND, CROSSWALK_COLOUR_UPPER_BOUND)
 
         if np.average(mask) > CROSSWALK_THRESHOLD:
             self.last_crosswalk_time = datetime.now()
             return True
 
         else:
+
             return False
 
     def pedestrian_clear(self):
@@ -168,14 +170,6 @@ class RobotDriver():
 
         mask = cv2.inRange(danger_zone, PEDESTRIAN_COLOUR_LOWER_BOUND, PEDESTRIAN_COLOUR_UPPER_BOUND)
 
-        for i in range (mask.shape[1]):
-            #print(np.average(mask[:,i]))
-            if np.average(mask[:,i]) > PEDESTRAIN_THRESHOLD:
-                print("see pedo")
-                return False
-
-        return True
-
         # pts = np.array([[PEDESTRAIN_MONITOR_ZONE_X[0], PEDESTRAIN_MONITOR_ZONE_Y[0]],
         #                 [PEDESTRAIN_MONITOR_ZONE_X[0], PEDESTRAIN_MONITOR_ZONE_Y[1]],
         #                 [PEDESTRAIN_MONITOR_ZONE_X[1], PEDESTRAIN_MONITOR_ZONE_Y[1]],
@@ -183,9 +177,17 @@ class RobotDriver():
         #
         # pts = pts.reshape((-1, 1, 2))
         #
-        # cv2.imshow("", cv2.polylines(self.cv_raw, [pts], True, (255, 0, 0), 1))
-        # cv2.imshow("", mask)
+        # #cv2.imshow("", cv2.polylines(self.cv_raw, [pts], True, (255, 0, 0), 1))
+        # cv2.imshow("mask", mask)
         # cv2.waitKey(1)
+
+        for i in range (mask.shape[1]):
+            if np.average(mask[:,i]) > PEDESTRAIN_THRESHOLD:
+                return False
+
+        return True
+
+
 
     def activate_timer(self, start):
         if start:
@@ -205,17 +207,20 @@ class RobotDriver():
 
 
     def find_license_plate(self):
-        found_car, mask, location = self.found_parked_car()
+        found_car, location = self.found_parked_car()
         if found_car:
-            left, right, top = self.find_edge_of_label(mask)
+            left, right, top = self.find_edge_of_label()
 
             license_plate = self.cv_raw[LICENSE_PLATE_CAR_VISION_Y[0] + top:LICENSE_PLATE_CAR_VISION_Y[0] + top +
                                                                     LICENSE_PLATE_HEIGHT,
                     LICENSE_PLATE_CAR_VISION_X[0] + left: LICENSE_PLATE_CAR_VISION_X[0] + right]
 
-            cv2.imwrite("/home/fizzer/ros_ws/src/2020T1_competition/pid_controller/nodes/Labeled/"
+            cv2.imwrite("/home/fizzer/ros_ws/src/2020T1_competition/pid_controller/nodes/New_labeled/"
                         + str(self.true_plates[location-1]) + ".png", license_plate)
-            self.init_plate_value()
+
+            #cv2.imshow("plate", license_plate)
+            #cv2.waitKey(1)
+
             self.publish_plate(location, str(self.true_plates[location-1]))
 
             # pts = np.array([[LICENSE_PLATE_CAR_VISION_X[0] + left, LICENSE_PLATE_CAR_VISION_Y[0] + top],
@@ -242,9 +247,17 @@ class RobotDriver():
         return true_plates
 
 
-    def find_edge_of_label(self, mask):
-        license_plate_mask = mask[LICENSE_PLATE_CAR_VISION_Y[0]:LICENSE_PLATE_CAR_VISION_Y[1],
+    def find_edge_of_label(self):
+        vision_section = self.cv_raw[LICENSE_PLATE_CAR_VISION_Y[0]:LICENSE_PLATE_CAR_VISION_Y[1],
                               LICENSE_PLATE_CAR_VISION_X[0]:LICENSE_PLATE_CAR_VISION_X[1]]
+
+        hsv = cv2.cvtColor(vision_section, cv2.COLOR_RGB2HSV)
+
+        car_mask_1 = cv2.inRange(hsv, PARKED_CAR_COLOUR_LOWER_BOUND_1, PARKED_CAR_COLOUR_UPPER_BOUND_1)
+        car_mask_2 = cv2.inRange(hsv, PARKED_CAR_COLOUR_LOWER_BOUND_2, PARKED_CAR_COLOUR_UPPER_BOUND_2)
+        car_mask_3 = cv2.inRange(hsv, PARKED_CAR_COLOUR_LOWER_BOUND_3, PARKED_CAR_COLOUR_UPPER_BOUND_3)
+
+        license_plate_mask = car_mask_1 + car_mask_2 + car_mask_3
 
         width = license_plate_mask.shape[1]
 
@@ -287,7 +300,11 @@ class RobotDriver():
 
     def found_parked_car(self):
         self.parked_car_interval_counter = self.parked_car_interval_counter + 1
-        hsv = cv2.cvtColor(self.cv_raw, cv2.COLOR_RGB2HSV)
+
+        vision_section = self.cv_raw[PARKED_CAR_VISION_Y[0]:PARKED_CAR_VISION_Y[1],
+                              PARKED_CAR_VISION_X[0]:PARKED_CAR_VISION_X[1]]
+
+        hsv = cv2.cvtColor(vision_section, cv2.COLOR_RGB2HSV)
 
         car_mask_1 = cv2.inRange(hsv, PARKED_CAR_COLOUR_LOWER_BOUND_1, PARKED_CAR_COLOUR_UPPER_BOUND_1)
         car_mask_2 = cv2.inRange(hsv, PARKED_CAR_COLOUR_LOWER_BOUND_2, PARKED_CAR_COLOUR_UPPER_BOUND_2)
@@ -295,10 +312,7 @@ class RobotDriver():
 
         car_mask_total = car_mask_1 + car_mask_2 + car_mask_3
 
-        vision_section_mask = car_mask_total[PARKED_CAR_VISION_Y[0]:PARKED_CAR_VISION_Y[1],
-                              PARKED_CAR_VISION_X[0]:PARKED_CAR_VISION_X[1]]
-
-        vision_section_avg = np.average(vision_section_mask)
+        vision_section_avg = np.average(car_mask_total)
 
         #this_cars_threshold = PARKED_CAR_AVG_THRESHOLD.get(PARKED_CAR_ORDER[self.parked_car_counter])
 
@@ -311,7 +325,7 @@ class RobotDriver():
                 self.parked_car_counter = 0
 
             self.parked_car_interval_counter = 0
-            return True, car_mask_total, location_id
+            return True, location_id
 
         # if vision_section_avg >  this_cars_threshold and self.parked_car_interval_counter > PARKED_CAR_MINIMUM_INTERVAL:
         #     print(PARKED_CAR_ORDER[self.parked_car_counter])
@@ -323,7 +337,7 @@ class RobotDriver():
         #     return True
 
         else:
-            return False, car_mask_total, -1
+            return False, -1
 
             # vision_section_real = self.cv_raw[PARKED_CAR_VISION_Y[0]:PARKED_CAR_VISION_Y[1],
             #                       PARKED_CAR_VISION_X[0]:PARKED_CAR_VISION_X[1]]
@@ -383,8 +397,9 @@ class RobotDriver():
         return velocity_command
 
     def find_road_center(self):
-        road_mask = cv2.inRange(self.cv_raw, ROAD_COLOUR_LOWER_BOUND, ROAD_COLOUR_UPPER_BOUND)
-        cropped_strip = road_mask[DRIVE_VISION_STRIP[0]:DRIVE_VISION_STRIP[1], STRIP_CROPPING_X:-STRIP_CROPPING_X]
+        strip = self.cv_raw[DRIVE_VISION_STRIP[0]:DRIVE_VISION_STRIP[1], STRIP_CROPPING_X:-STRIP_CROPPING_X]
+        cropped_strip = cv2.inRange(strip, ROAD_COLOUR_LOWER_BOUND, ROAD_COLOUR_UPPER_BOUND)
+
         # cv2.imshow("mask", cropped_strip)
         # cv2.waitKey(1)
 

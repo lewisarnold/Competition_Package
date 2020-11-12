@@ -1,0 +1,10 @@
+15:31:14.895: Position 1: MS93
+15:31:14.895: Position 2: TU43
+15:31:14.895: Position 3: MR31
+15:31:14.900: Position 4: HT94
+15:31:14.900: Position 5: OW07
+15:31:14.900: Position 6: JY29
+15:31:14.901: Position 7: MK37
+15:31:14.902: Position 8: HI19
+15:31:24.027: Message received: KL,123,0,AAAA
+15:31:24.027: First command velocity received.
