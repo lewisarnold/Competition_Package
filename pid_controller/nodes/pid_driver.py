@@ -36,7 +36,7 @@ CROSSWALK_MONITOR_ZONE_Y = (600, 719)
 CROSSWALK_THRESHOLD = 10
 MIN_TIME_BETWEEN_CROSSWALKS = 5 #s
 
-FULL_SPEED_LINEAR = 0.3
+FULL_SPEED_LINEAR = 0.425
 
 ANGULAR_PROPORTIONAL = 0.15
 
@@ -48,7 +48,7 @@ ROAD_COLOUR_UPPER_BOUND = (90, 90, 90)
 PARKED_CAR_VISION_X = (280, 330)
 PARKED_CAR_VISION_Y = (370, 470)
 
-LICENSE_PLATE_CAR_VISION_X = (245, 380)
+LICENSE_PLATE_CAR_VISION_X = (225, 380)
 LICENSE_PLATE_CAR_VISION_Y = (383, 510)
 
 LICENSE_PLATE_HEIGHT = 20
@@ -143,7 +143,6 @@ class RobotDriver():
         else:
             return True, False
 
-
     def at_crosswalk(self):
         time_change = datetime.now() - self.last_crosswalk_time
         if time_change.seconds < MIN_TIME_BETWEEN_CROSSWALKS:
@@ -187,8 +186,6 @@ class RobotDriver():
 
         return True
 
-
-
     def activate_timer(self, start):
         if start:
             message = String()
@@ -204,22 +201,19 @@ class RobotDriver():
         message.data = TEAM_ID + "," + TEAM_PW + "," + str(location) + "," + plate_number
         self.license_plate_publisher.publish(message)
 
-
-
     def find_license_plate(self):
         found_car, location = self.found_parked_car()
         if found_car:
+            print("car")
             left, right, top = self.find_edge_of_label()
 
             license_plate = self.cv_raw[LICENSE_PLATE_CAR_VISION_Y[0] + top:LICENSE_PLATE_CAR_VISION_Y[0] + top +
                                                                     LICENSE_PLATE_HEIGHT,
                     LICENSE_PLATE_CAR_VISION_X[0] + left: LICENSE_PLATE_CAR_VISION_X[0] + right]
 
-            cv2.imwrite("/home/fizzer/ros_ws/src/2020T1_competition/pid_controller/nodes/New_labeled/"
+            cv2.imwrite("/home/fizzer/ros_ws/src/2020T1_competition/pid_controller/nodes/At4Vel/"
                         + str(self.true_plates[location-1]) + ".png", license_plate)
 
-            #cv2.imshow("plate", license_plate)
-            #cv2.waitKey(1)
 
             self.publish_plate(location, str(self.true_plates[location-1]))
 
