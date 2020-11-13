@@ -1,0 +1,29 @@
+18:05:16.149: Position 1: UQ07
+18:05:16.149: Position 2: XA87
+18:05:16.149: Position 3: ND39
+18:05:16.149: Position 4: DF02
+18:05:16.150: Position 5: PH83
+18:05:16.150: Position 6: YT47
+18:05:16.150: Position 7: KM30
+18:05:16.150: Position 8: OW59
+18:05:26.528: Message received: KL,123,0,AAAA
+18:05:26.529: Timer started.
+18:05:26.532: First command velocity received.
+18:05:27.539: Message received: KL,123,2,XA87
+18:05:27.540: Awarded: 6 pts
+18:05:27.541: Team total: 6 pts
+18:05:29.001: Message received: KL,123,3,ND39
+18:05:29.002: Awarded: 6 pts
+18:05:29.004: Team total: 12 pts
+18:05:33.346: Message received: KL,123,4,DF02
+18:05:33.347: Awarded: 6 pts
+18:05:33.349: Team total: 18 pts
+18:05:34.982: Message received: KL,123,5,PH83
+18:05:34.982: Awarded: 6 pts
+18:05:34.983: Team total: 24 pts
+18:05:36.456: Message received: KL,123,6,YT47
+18:05:36.456: Awarded: 6 pts
+18:05:36.458: Team total: 30 pts
+18:05:42.075: Message received: KL,123,1,UQ07
+18:05:42.076: Awarded: 6 pts
+18:05:42.081: Team total: 36 pts

@@ -1,0 +1,66 @@
+15:31:14.895: Position 1: MS93
+15:31:14.895: Position 2: TU43
+15:31:14.895: Position 3: MR31
+15:31:14.900: Position 4: HT94
+15:31:14.900: Position 5: OW07
+15:31:14.900: Position 6: JY29
+15:31:14.901: Position 7: MK37
+15:31:14.902: Position 8: HI19
+15:31:24.027: Message received: KL,123,0,AAAA
+15:31:24.027: First command velocity received.
+15:31:24.032: Timer started.
+15:31:25.535: Message received: KL,123,2,TU43
+15:31:25.536: Awarded: 6 pts
+15:31:25.537: Team total: 6 pts
+15:31:27.892: Message received: KL,123,3,MR31
+15:31:27.893: Awarded: 6 pts
+15:31:27.894: Team total: 12 pts
+15:31:33.030: Message received: KL,123,4,HT94
+15:31:33.030: Awarded: 6 pts
+15:31:33.032: Team total: 18 pts
+15:31:35.773: Message received: KL,123,5,OW07
+15:31:35.774: Awarded: 6 pts
+15:31:35.777: Team total: 24 pts
+15:31:38.234: Message received: KL,123,6,JY29
+15:31:38.234: Awarded: 6 pts
+15:31:38.237: Team total: 30 pts
+15:31:43.640: Message received: KL,123,1,MS93
+15:31:43.641: Awarded: 6 pts
+15:31:43.645: Team total: 36 pts
+15:31:46.632: Message received: KL,123,2,TU43
+15:31:46.633: Awarded: 6 pts
+15:31:49.074: Message received: KL,123,3,MR31
+15:31:49.075: Awarded: 6 pts
+15:31:54.367: Message received: KL,123,4,HT94
+15:31:54.369: Awarded: 6 pts
+15:31:57.203: Message received: KL,123,5,OW07
+15:31:57.204: Awarded: 6 pts
+15:31:59.644: Message received: KL,123,6,JY29
+15:31:59.646: Awarded: 6 pts
+15:33:43.039: Out of time: 241.401sec sim time (real time: 139sec).
+15:36:15.707: Message received: KL,123,0,AAAA
+15:36:15.708: Timer started.
+15:37:17.287: Message received: KL,123,0,AAAA
+15:37:17.288: Timer started.
+15:37:18.836: Message received: KL,123,2,TU43
+15:37:18.837: Awarded: 6 pts
+15:37:21.507: Message received: KL,123,3,MR31
+15:37:21.508: Awarded: 6 pts
+15:37:26.793: Message received: KL,123,4,HT94
+15:37:26.794: Awarded: 6 pts
+15:37:29.515: Message received: KL,123,5,OW07
+15:37:29.516: Awarded: 6 pts
+15:37:31.954: Message received: KL,123,6,JY29
+15:37:31.956: Awarded: 6 pts
+15:37:37.236: Message received: KL,123,1,MS93
+15:37:37.238: Awarded: 6 pts
+15:37:40.194: Message received: KL,123,2,TU43
+15:37:40.194: Awarded: 6 pts
+15:37:42.563: Message received: KL,123,3,MR31
+15:37:42.564: Awarded: 6 pts
+15:37:47.870: Message received: KL,123,4,HT94
+15:37:47.871: Awarded: 6 pts
+15:37:50.672: Message received: KL,123,5,OW07
+15:37:50.673: Awarded: 6 pts
+15:37:53.048: Message received: KL,123,6,JY29
+15:37:53.049: Awarded: 6 pts

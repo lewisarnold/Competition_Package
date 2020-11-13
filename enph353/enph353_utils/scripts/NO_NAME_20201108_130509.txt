@@ -1,0 +1,10 @@
+13:05:09.654: Position 1: AE48
+13:05:09.655: Position 2: CB99
+13:05:09.655: Position 3: AA01
+13:05:09.656: Position 4: TJ74
+13:05:09.657: Position 5: VO87
+13:05:09.657: Position 6: GJ87
+13:05:09.657: Position 7: YM79
+13:05:09.658: Position 8: GG26
+13:05:19.544: First command velocity received.
+13:05:41.412: Message received: KL,123,0,AAAA
