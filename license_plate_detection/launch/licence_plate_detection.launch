@@ -1,4 +1,0 @@
-<launch>
-        <node pkg="license_plate_detection" type="license_plate_detector.py" name="license_plate_detector">
-        </node>
-</launch>
