@@ -7,7 +7,6 @@ from std_msgs.msg import String
 import numpy as np
 import cv2
 from cv_bridge import CvBridge
-from datetime import datetime, timedelta
 
 import csv
 
@@ -21,12 +20,26 @@ FULL_SPEED_LINEAR = 0.425
 
 ANGULAR_PROPORTIONAL = 0.15
 
+
+TRUCK_THRESHOLD = 50
+
+TRUCK_COLOUR_LOWER_BOUND = (30, 30, 30)
+TRUCK_COLOUR_UPPER_BOUND = (60, 60, 60)
+
+TRUCK_MONITOR_ZONE_X = (700, 830)
+TRUCK_MONITOR_ZONE_Y = (389, 400)
+
+
 TURNING_MONITOR_ZONE_X = (300, 350)
 TURNING_MONITOR_ZONE_Y = (400, 450)
 
 TURNING_THRESHOLD = 200
 
-TURNING_OVERRIDE = 2.5 * FULL_SPEED_LINEAR
+TURNING_OVERRIDE = 2.9 * FULL_SPEED_LINEAR
+TURNING_INDICATOR = 0.5 * FULL_SPEED_LINEAR
+
+FIRST_HALF_TURNING_TIME = 1.0
+SECOND_HALF_TURNING_TIME = 0.6
 
 PEDESTRIAN_COLOUR_LOWER_BOUND = (50, 40, 20)
 PEDESTRIAN_COLOUR_UPPER_BOUND = (110, 80, 70)
@@ -34,7 +47,7 @@ PEDESTRIAN_COLOUR_UPPER_BOUND = (110, 80, 70)
 PEDESTRAIN_MONITOR_ZONE_X = (420, 812)
 PEDESTRAIN_MONITOR_ZONE_Y = (410, 500)
 
-PEDESTRAIN_WAIT = 6 #*0.5s
+PEDESTRAIN_WAIT = 5 #*0.5s
 
 PEDESTRAIN_THRESHOLD = 10
 
@@ -45,7 +58,7 @@ CROSSWALK_MONITOR_ZONE_X = (638, 641)
 CROSSWALK_MONITOR_ZONE_Y = (600, 719)
 
 CROSSWALK_THRESHOLD = 10
-MIN_TIME_BETWEEN_CROSSWALKS = 5 #s
+MIN_TIME_BETWEEN_CROSSWALKS = 8 #s
 
 ROAD_FINDING_AVERAGING_THRESHOLD = 110
 
@@ -64,7 +77,7 @@ LICENSE_PLATE_THRESHOLD_X = 120
 LICENSE_PLATE_THRESHOLD_Y = 20
 
 PARKED_CAR_AVG_THRESHOLD_SINGLE = 140
-PARKED_CAR_ORDER = [2,3,4,5,6,1]
+PARKED_CAR_ORDER = [2,3,4,5,6,1,7,8]
 PARKED_CAR_MINIMUM_INTERVAL = 20
 
 PARKED_CAR_COLOUR_LOWER_BOUND_1 = (0, 0, 95)
@@ -89,6 +102,7 @@ WAIT = False
 
 class RobotDriver():
     def drive_robot(self):
+        rospy.init_node('pid_commander')
         self.last_side_left = True
         self.velocity_command_publisher = rospy.Publisher('/R1/cmd_vel', Twist, queue_size=1)
         self.license_plate_publisher = rospy.Publisher('/license_plate', String, queue_size=1)
@@ -98,18 +112,24 @@ class RobotDriver():
         self.parked_car_interval_counter = 0
         self.parked_car_counter = 0
 
-        self.last_crosswalk_time = datetime.now() - timedelta(seconds=MIN_TIME_BETWEEN_CROSSWALKS)
+        self.last_crosswalk_time = rospy.get_time() - MIN_TIME_BETWEEN_CROSSWALKS
         self.crosswalk_count = 0
 
-        self.turning_count = 0
+        self.start_turning_time = None
+        self.turning_initiated = False
+        self.completed_turn = False
 
         self.pedestrian_aside = True
+        self.on_inside = False
 
+        self.truck_known = False
+
+        self.finished = False
 
         #MUST BE REMOVED FOR COMPETITION
         self.true_plates =  self.init_plate_value()
 
-        rospy.init_node('pid_commander')
+
 
         self.rate = rospy.Rate(2)
 
@@ -129,38 +149,80 @@ class RobotDriver():
 
         velocity_command = self.standard_drive_velocity(int(self.cv_raw.shape[1] / 2))
 
-        if self.crosswalk_count >= 2 and self.turn_available() and self.turning_count < 10:
-            if velocity_command.angular.z < TURNING_OVERRIDE:
-                self.turning_count = self.turning_count + 1
-                print(self.turning_count)
+        if not self.on_inside:
+            if self.turning_initiated or self.parked_car_counter >= 6 and self.turn_available():
                 velocity_command.angular.z = TURNING_OVERRIDE
 
-        safe_to_drive, just_stopped = self.safe_to_drive_through_crosswalk()
+                if not self.turning_initiated:
+                    self.turning_initiated = True
+                    self.start_turning_time = rospy.get_time()
 
-        if not safe_to_drive:
+                if rospy.get_time() - self.start_turning_time > FIRST_HALF_TURNING_TIME:
+                    self.on_inside = True
+
+            safe_to_drive, just_stopped = self.safe_to_drive_through_crosswalk()
+
+            if not safe_to_drive:
+                velocity_command.linear.x = 0
+                velocity_command.angular.z = 0
+                self.velocity_command_publisher.publish(velocity_command)
+                if just_stopped:
+                    self.subscriber.unregister()
+                    rospy.sleep(2)
+                    self.subscriber = rospy.Subscriber('/R1/pi_camera/image_raw', Image, self.on_image_recieve)
+            else:
+                self.velocity_command_publisher.publish(velocity_command)
+
+
+        else:
+            if not self.truck_known:
+                velocity_command.linear.x = 0
+                velocity_command.angular.z = 0
+                self.velocity_command_publisher.publish(velocity_command)
+
+                if self.find_truck():
+                    self.truck_known = True
+                    self.start_turning_time = rospy.get_time()
+
+            else:
+                if not self.completed_turn:
+                    velocity_command.angular.z = TURNING_OVERRIDE
+
+                    if rospy.get_time() - self.start_turning_time > SECOND_HALF_TURNING_TIME:
+                        self.completed_turn = True
+
+                self.velocity_command_publisher.publish(velocity_command)
+
+        self.find_license_plate()
+        print(self.parked_car_counter)
+
+        if self.finished:
+            self.activate_timer(STOP)
             velocity_command.linear.x = 0
             velocity_command.angular.z = 0
             self.velocity_command_publisher.publish(velocity_command)
-            if just_stopped:
-                self.subscriber.unregister()
-                rospy.sleep(2)
-                self.subscriber = rospy.Subscriber('/R1/pi_camera/image_raw', Image, self.on_image_recieve)
-        else:
-            self.velocity_command_publisher.publish(velocity_command)
-
-        #self.velocity_command_publisher.publish(velocity_command)
 
 
-        self.find_license_plate()
+
+    def find_truck(self):
+        vision_square = self.cv_raw[TRUCK_MONITOR_ZONE_Y[0]:TRUCK_MONITOR_ZONE_Y[1],
+                        TRUCK_MONITOR_ZONE_X[0]:TRUCK_MONITOR_ZONE_X[1]]
+
+        mask = cv2.inRange(vision_square, TRUCK_COLOUR_LOWER_BOUND, TRUCK_COLOUR_UPPER_BOUND)
+
+        return np.average(mask) > TRUCK_THRESHOLD
 
     def turn_available(self):
         vision_square = self.cv_raw[TURNING_MONITOR_ZONE_Y[0]:TURNING_MONITOR_ZONE_Y[1], TURNING_MONITOR_ZONE_X[0]:TURNING_MONITOR_ZONE_X[1]]
         mask = cv2.inRange(vision_square, ROAD_COLOUR_LOWER_BOUND, ROAD_COLOUR_UPPER_BOUND)
 
+
+
+
         return np.average(mask) > TURNING_THRESHOLD
 
         # print(np.average(mask))
-        #
+
         # pts = np.array([[TURNING_MONITOR_ZONE_X[0], TURNING_MONITOR_ZONE_Y[0]],
         #                 [TURNING_MONITOR_ZONE_X[0], TURNING_MONITOR_ZONE_Y[1]],
         #                 [TURNING_MONITOR_ZONE_X[1], TURNING_MONITOR_ZONE_Y[1]],
@@ -171,6 +233,7 @@ class RobotDriver():
         # cv2.imshow("", cv2.polylines(self.cv_raw, [pts], True, (255, 0, 0), 1))
         # cv2.imshow("mask", mask)
         # cv2.waitKey(1)
+
 
     def safe_to_drive_through_crosswalk(self):
         if not self.pedestrian_aside:
@@ -183,8 +246,8 @@ class RobotDriver():
             return True, False
 
     def at_crosswalk(self):
-        time_change = datetime.now() - self.last_crosswalk_time
-        if time_change.seconds < MIN_TIME_BETWEEN_CROSSWALKS:
+        time_change = rospy.get_time() - self.last_crosswalk_time
+        if time_change < MIN_TIME_BETWEEN_CROSSWALKS:
             return False
 
         monitor_zone = self.cv_raw[CROSSWALK_MONITOR_ZONE_Y[0]:CROSSWALK_MONITOR_ZONE_Y[1],
@@ -195,7 +258,7 @@ class RobotDriver():
         mask = cv2.inRange(hsv, CROSSWALK_COLOUR_LOWER_BOUND, CROSSWALK_COLOUR_UPPER_BOUND)
 
         if np.average(mask) > CROSSWALK_THRESHOLD:
-            self.last_crosswalk_time = datetime.now()
+            self.last_crosswalk_time = rospy.get_time()
             self.crosswalk_count = self.crosswalk_count + 1
             return True
 
@@ -250,7 +313,7 @@ class RobotDriver():
                                                                     LICENSE_PLATE_HEIGHT,
                     LICENSE_PLATE_CAR_VISION_X[0] + left: LICENSE_PLATE_CAR_VISION_X[0] + right]
 
-            cv2.imwrite("/home/fizzer/ros_ws/src/2020T1_competition/pid_controller/nodes/At4Vel/"
+            cv2.imwrite("/home/fizzer/ros_ws/src/2020T1_competition/pid_controller/nodes/Quarantine/"
                         + str(self.true_plates[location-1]) + ".png", license_plate)
 
 
@@ -355,7 +418,8 @@ class RobotDriver():
             location_id = PARKED_CAR_ORDER[self.parked_car_counter]
             self.parked_car_counter = 1 + self.parked_car_counter
             if self.parked_car_counter >= len(PARKED_CAR_ORDER):
-                self.parked_car_counter = 0
+                self.finished = True
+                #self.parked_car_counter = 0
 
             self.parked_car_interval_counter = 0
             return True, location_id
