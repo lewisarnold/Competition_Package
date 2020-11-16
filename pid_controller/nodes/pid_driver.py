@@ -493,7 +493,8 @@ class RobotDriver():
             # cv2.imshow(str(location), license_plate)
             # cv2.waitKey(1)
 
-    def save_plate(self, image, name):
+    @staticmethod
+    def save_plate(image, name):
         """
         Save the license plate to file
         :param image: the license_plate to save
@@ -502,7 +503,8 @@ class RobotDriver():
         cv2.imwrite(PLATE_FILE_PATH + name + ".png", image)
 
     ## CANNOT BE USED IN COMPETITION
-    def init_plate_value(self):
+    @staticmethod
+    def init_plate_value():
         """
         Get the real values of the license plates from the csv file
         :return:
