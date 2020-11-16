@@ -1,0 +1,35 @@
+11:05:24.960: Position 1: KR62
+11:05:24.960: Position 2: PC68
+11:05:24.960: Position 3: IF24
+11:05:24.963: Position 4: GF64
+11:05:24.963: Position 5: RN58
+11:05:24.963: Position 6: BL11
+11:05:24.963: Position 7: SV12
+11:05:24.964: Position 8: DW52
+11:05:31.699: First command velocity received.
+11:05:32.881: Message received: KL,123,2,PC68
+11:05:32.882: Awarded: 6 pts
+11:05:32.883: Team total: 6 pts
+11:05:34.597: Message received: KL,123,3,IF24
+11:05:34.598: Awarded: 6 pts
+11:05:34.599: Team total: 12 pts
+11:05:39.469: Message received: KL,123,4,GF64
+11:05:39.470: Awarded: 6 pts
+11:05:39.471: Team total: 18 pts
+11:05:41.480: Message received: KL,123,5,RN58
+11:05:41.481: Awarded: 6 pts
+11:05:41.482: Team total: 24 pts
+11:05:43.233: Message received: KL,123,6,BL11
+11:05:43.234: Awarded: 6 pts
+11:05:43.236: Team total: 30 pts
+11:05:46.903: Message received: KL,123,1,KR62
+11:05:46.904: Awarded: 6 pts
+11:05:46.905: Team total: 36 pts
+11:06:08.289: Message received: KL,123,7,SV12
+11:06:08.292: Awarded: 8 pts
+11:06:08.292: Team total: 44 pts
+11:06:11.915: Message received: KL,123,8,DW52
+11:06:11.916: Awarded: 8 pts
+11:06:11.916: Team total: 52 pts
+11:06:23.343: Full lap completed: +5 points
+11:06:23.344: Team total: 57 pts

@@ -1,0 +1,27 @@
+11:52:30.932: Position 1: HG61
+11:52:30.932: Position 2: MV51
+11:52:30.932: Position 3: SV78
+11:52:30.934: Position 4: TC14
+11:52:30.934: Position 5: NQ79
+11:52:30.935: Position 6: QL36
+11:52:30.936: Position 7: RU61
+11:52:30.936: Position 8: EG54
+11:52:38.107: First command velocity received.
+11:52:54.560: Message received: KL,123,2,MV51
+11:52:54.561: Awarded: 6 pts
+11:52:54.562: Team total: 6 pts
+11:52:56.339: Message received: KL,123,3,SV78
+11:52:56.339: Awarded: 6 pts
+11:52:56.341: Team total: 12 pts
+11:53:02.350: Message received: KL,123,4,TC14
+11:53:02.351: Awarded: 6 pts
+11:53:02.352: Team total: 18 pts
+11:53:04.350: Message received: KL,123,5,NQ79
+11:53:04.351: Awarded: 6 pts
+11:53:04.352: Team total: 24 pts
+11:53:06.019: Message received: KL,123,6,QL36
+11:53:06.020: Awarded: 6 pts
+11:53:06.021: Team total: 30 pts
+11:53:09.709: Message received: KL,123,1,HG61
+11:53:09.709: Awarded: 6 pts
+11:53:09.714: Team total: 36 pts

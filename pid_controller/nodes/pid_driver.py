@@ -11,8 +11,6 @@ from cv_bridge import CvBridge
 # For reading the true values of license plates.  Can be removed for competition
 import csv
 
-
-
 # Standard forward drive speed 0.425 is maximum reliable speed as of 14 November
 FULL_SPEED_LINEAR = 0.425
 
@@ -42,14 +40,25 @@ STOP = 0
 
 # Parameters for Finding the Truck
 
-TRUCK_THRESHOLD = 50
+TRUCK_THRESHOLD_CORNER = 55
+TRUCK_THRESHOLD_TOP = 100
+TRUCK_THRESHOLD_BOTTOM = 10
 
-#In BGR
-TRUCK_COLOUR_LOWER_BOUND = (30, 30, 30)
-TRUCK_COLOUR_UPPER_BOUND = (60, 60, 60)
+# In BGR
+TRUCK_COLOUR_LOWER_BOUND_CORNER = (30, 30, 30)
+TRUCK_COLOUR_UPPER_BOUND_CORNER = (60, 60, 60)
 
-TRUCK_MONITOR_ZONE_X = (700, 830)
-TRUCK_MONITOR_ZONE_Y = (389, 400)
+TRUCK_MONITOR_ZONE_CORNER_X = (700, 830)
+TRUCK_MONITOR_ZONE_CORNER_Y = (389, 400)
+
+TRUCK_COLOUR_LOWER_BOUND_MIDDLE_AREA = (70, 70, 70)
+TRUCK_COLOUR_UPPER_BOUND_MIDDLE_AREA = (100, 100, 100)
+
+TRUCK_MONITOR_ZONE_TOP_X = (576, 593)
+TRUCK_MONITOR_ZONE_TOP_Y = (365, 369)
+
+TRUCK_MONITOR_ZONE_BOTTOM_X = (556, 593)
+TRUCK_MONITOR_ZONE_BOTTOM_Y = (389, 400)
 
 # Parameters for turning into the center
 TURNING_MONITOR_ZONE_X = (300, 350)
@@ -107,13 +116,16 @@ NO_READING_LINEAR_DECREASE = 0.5
 NO_READING_ANGULAR_VELOCITY = 20 * FULL_SPEED_LINEAR * NO_READING_LINEAR_DECREASE
 
 # Parameters for the Parked Car Detector
-PARKED_CAR_VISION_X = (280, 330)
-PARKED_CAR_VISION_Y = (370, 470)
+PARKED_CAR_VISION_LEFT_X = (280, 330)
+PARKED_CAR_VISION_LEFT_Y = (370, 470)
+
+PARKED_CAR_VISION_RIGHT_X = (950, 1000)
+PARKED_CAR_VISION_RIGHT_Y = (370, 470)
 
 PARKED_CAR_AVG_THRESHOLD_SINGLE = 140
 
 # The preplanned route: which parking locations it will see in order
-PARKED_CAR_ORDER = [2,3,4,5,6,1,7,8]
+PARKED_CAR_ORDER = [2, 3, 4, 5, 6, 1, 7, 8]
 
 # Minimum number of loops between parked cars so the same one isn't seen twice
 PARKED_CAR_MINIMUM_INTERVAL = 20
@@ -128,17 +140,23 @@ PARKED_CAR_COLOUR_LOWER_BOUND_3 = (0, 0, 118)
 PARKED_CAR_COLOUR_UPPER_BOUND_3 = (10, 10, 128)
 
 # Parameters for the License PLate Locator
-LICENSE_PLATE_CAR_VISION_X = (225, 380)
-LICENSE_PLATE_CAR_VISION_Y = (383, 510)
+LICENSE_PLATE_CAR_VISION_LEFT_X = (225, 380)
+LICENSE_PLATE_CAR_VISION_LEFT_Y = (383, 510)
+
+LICENSE_PLATE_CAR_VISION_RIGHT_X = (900, 1055)
+LICENSE_PLATE_CAR_VISION_RIGHT_Y = (383, 510)
 
 LICENSE_PLATE_HEIGHT = 20
 
 LICENSE_PLATE_THRESHOLD_X = 120
 LICENSE_PLATE_THRESHOLD_Y = 20
 
+LEFT = 0
+RIGHT = 1
+
 # Parameters for saving license Plates
 SAVE_PLATES = True
-PLATE_FILE_PATH = "/home/fizzer/ros_ws/src/2020T1_competition/pid_controller/nodes/Quarantine/"
+PLATE_FILE_PATH = "/home/fizzer/ros_ws/src/2020T1_competition/pid_controller/nodes/FullRuns/"
 
 
 class RobotDriver():
@@ -146,6 +164,7 @@ class RobotDriver():
     Defines an object which holds all relevant parameters and information for driving the robot
     Robot can be driven with drive_robot()
     """
+
     def __init__(self):
         """
         Sets up all the parameters for the class
@@ -180,8 +199,11 @@ class RobotDriver():
         # True when the truck has been spotted in the designated spot
         self.truck_known = False
 
-        # True when the course has been run and the timer stopped
+        # True when the course has been run
         self.finished = False
+
+        # True when timer stopped
+        self.timer_stopped = False
 
         # MUST BE REMOVED FOR COMPETITION
         self.true_plates = self.init_plate_value()
@@ -220,6 +242,10 @@ class RobotDriver():
         :param camera_image_raw: the new image in message format
         :return: None
         """
+        if self.timer_stopped:
+            return
+
+
         # Bridge to cv and then hold it so all helpers can access it
         self.cv_raw = self.image_to_cv_bridge.imgmsg_to_cv2(camera_image_raw, "bgr8")
 
@@ -263,6 +289,9 @@ class RobotDriver():
             else:
                 self.velocity_command_publisher.publish(velocity_command)
 
+                # Look for a car to read license plates
+                self.do_license_plate_work(LEFT)
+
         # Now we're on the inside
         else:
             # If we haven't seen the truck yet, wait for it
@@ -277,6 +306,9 @@ class RobotDriver():
                     self.truck_known = True
                     self.start_turning_time = rospy.get_time()
 
+                # cv2.imshow("", self.cv_raw)
+                # cv2.waitKey()
+
             # Now we have seen the truck, so it's time to go
             else:
                 # If we haven't finished the second half of the turn, finish it now
@@ -290,8 +322,8 @@ class RobotDriver():
                 # Publish the velocity
                 self.velocity_command_publisher.publish(velocity_command)
 
-        # Look for a car to read license plates
-        self.do_license_plate_work()
+                # Look for a car to read license plates
+                self.do_license_plate_work(RIGHT)
 
         # If done the course, stop timer then stop robot.  self.finished is updated by found_parked_car
         if self.finished:
@@ -299,25 +331,64 @@ class RobotDriver():
             velocity_command.linear.x = 0
             velocity_command.angular.z = 0
             self.velocity_command_publisher.publish(velocity_command)
+            self.timer_stopped = True
 
     def find_truck(self):
         """
         Check the designated vision square for the truck
         :return: True if the truck is there, False otherwise
         """
-        vision_square = self.cv_raw[TRUCK_MONITOR_ZONE_Y[0]:TRUCK_MONITOR_ZONE_Y[1],
-                        TRUCK_MONITOR_ZONE_X[0]:TRUCK_MONITOR_ZONE_X[1]]
+        vision_square_top = self.cv_raw[TRUCK_MONITOR_ZONE_TOP_Y[0]:TRUCK_MONITOR_ZONE_TOP_Y[1],
+                            TRUCK_MONITOR_ZONE_TOP_X[0]:TRUCK_MONITOR_ZONE_TOP_X[1]]
 
-        mask = cv2.inRange(vision_square, TRUCK_COLOUR_LOWER_BOUND, TRUCK_COLOUR_UPPER_BOUND)
+        mask_top = cv2.inRange(vision_square_top, TRUCK_COLOUR_LOWER_BOUND_MIDDLE_AREA,
+                               TRUCK_COLOUR_UPPER_BOUND_MIDDLE_AREA)
 
-        return np.average(mask) > TRUCK_THRESHOLD
+        vision_square_bottom = self.cv_raw[TRUCK_MONITOR_ZONE_BOTTOM_Y[0]:TRUCK_MONITOR_ZONE_BOTTOM_Y[1],
+                               TRUCK_MONITOR_ZONE_BOTTOM_X[0]:TRUCK_MONITOR_ZONE_BOTTOM_X[1]]
+
+        mask_bottom = cv2.inRange(vision_square_bottom, TRUCK_COLOUR_LOWER_BOUND_MIDDLE_AREA,
+                                  TRUCK_COLOUR_UPPER_BOUND_MIDDLE_AREA)
+
+        vision_square_corner = self.cv_raw[TRUCK_MONITOR_ZONE_CORNER_Y[0]:TRUCK_MONITOR_ZONE_CORNER_Y[1],
+                               TRUCK_MONITOR_ZONE_CORNER_X[0]:TRUCK_MONITOR_ZONE_CORNER_X[1]]
+
+        mask_corner = cv2.inRange(vision_square_corner, TRUCK_COLOUR_LOWER_BOUND_CORNER,
+                                  TRUCK_COLOUR_UPPER_BOUND_CORNER)
+        # if (np.average(mask_top) > TRUCK_THRESHOLD_TOP or np.average(mask_corner) > TRUCK_THRESHOLD_CORNER) and np.average(
+        #     mask_bottom) < TRUCK_THRESHOLD_BOTTOM:
+        #     print("top" + str(np.average(mask_top)))
+        #     print("bottom" + str(np.average(mask_bottom)))
+        #     print("corner" + str(np.average(mask_corner)))
+        #     print("BOTTOM_THRESH" + str(TRUCK_THRESHOLD_BOTTOM))
+        #     print("BOOL" + str(np.average(
+        #     mask_bottom) < TRUCK_THRESHOLD_BOTTOM))
+
+        #print(np.average(mask_corner))
+        return (np.average(mask_top) > TRUCK_THRESHOLD_TOP or np.average(mask_corner) > TRUCK_THRESHOLD_CORNER) and np.average(
+            mask_bottom) < TRUCK_THRESHOLD_BOTTOM
+
+        # if np.average(mask_top) > TRUCK_THRESHOLD_1:
+        #     print(np.average(mask_bottom))
+        # #print(np.average(mask_top))
+
+        # pts = np.array([[TRUCK_MONITOR_ZONE_2_X[0], TRUCK_MONITOR_ZONE_2_Y[0]],
+        #                 [TRUCK_MONITOR_ZONE_2_X[0], TRUCK_MONITOR_ZONE_2_Y[1]],
+        #                 [TRUCK_MONITOR_ZONE_2_X[1], TRUCK_MONITOR_ZONE_2_Y[1]],
+        #                 [TRUCK_MONITOR_ZONE_2_X[1], TRUCK_MONITOR_ZONE_2_Y[0]]])
+        #
+        # pts = pts.reshape((-1, 1, 2))
+        #
+        # cv2.imshow("", cv2.polylines(self.cv_raw, [pts], True, (255, 0, 0), 3))
+        # cv2.waitKey(1)
 
     def turn_available(self):
         """
         Check the designated vision (ahead and to the left) section to see if there is road there
         :return: True if there's road, False otherwise
         """
-        vision_square = self.cv_raw[TURNING_MONITOR_ZONE_Y[0]:TURNING_MONITOR_ZONE_Y[1], TURNING_MONITOR_ZONE_X[0]:TURNING_MONITOR_ZONE_X[1]]
+        vision_square = self.cv_raw[TURNING_MONITOR_ZONE_Y[0]:TURNING_MONITOR_ZONE_Y[1],
+                        TURNING_MONITOR_ZONE_X[0]:TURNING_MONITOR_ZONE_X[1]]
         mask = cv2.inRange(vision_square, ROAD_COLOUR_LOWER_BOUND, ROAD_COLOUR_UPPER_BOUND)
 
         return np.average(mask) > TURNING_THRESHOLD
@@ -398,9 +469,9 @@ class RobotDriver():
 
         mask = cv2.inRange(danger_zone, PEDESTRIAN_COLOUR_LOWER_BOUND, PEDESTRIAN_COLOUR_UPPER_BOUND)
 
-        for i in range (mask.shape[1]):
+        for i in range(mask.shape[1]):
             # if any column is higher than the threshold, then return False since the pedestrian is not clear
-            if np.average(mask[:,i]) > PEDESTRIAN_THRESHOLD:
+            if np.average(mask[:, i]) > PEDESTRIAN_THRESHOLD:
                 return False
 
         # The pedestrian is not in the vision section, so it is clear and return True
@@ -448,17 +519,17 @@ class RobotDriver():
 
         self.license_plate_publisher.publish(message)
 
-    def do_license_plate_work(self):
+    def do_license_plate_work(self, side):
         """
             Main Control for the license plate detection process
             Looks for parked car.  If parked car found, takes license plate, gets the value, and publishes it
         """
         # Check for a parked car
-        found_car, location = self.found_parked_car()
+        found_car, location = self.found_parked_car(side)
 
         # If we found it, do the work
         if found_car:
-            license_plate = self.find_license_plate()
+            license_plate = self.find_license_plate(side)
 
             # TODO: Replace this with the function call to the CNN
             license_plate_number = self.true_plates[location - 1]
@@ -468,30 +539,39 @@ class RobotDriver():
 
             self.publish_plate(location, str(self.true_plates[location - 1]))
 
-    def find_license_plate(self):
+            # cv2.imshow(license_plate_number, license_plate)
+            # cv2.waitKey(1)
+
+    def find_license_plate(self, side):
         """
         Find the actual license plate in the current frame
         :return: the license plate in a cv2 image
         """
-        left, right, top = self.find_edge_of_label()
+        left, right, top = self.find_edge_of_label(side)
 
-        license_plate = self.cv_raw[LICENSE_PLATE_CAR_VISION_Y[0] + top:LICENSE_PLATE_CAR_VISION_Y[0] + top +
-                                                                    LICENSE_PLATE_HEIGHT,
-                    LICENSE_PLATE_CAR_VISION_X[0] + left: LICENSE_PLATE_CAR_VISION_X[0] + right]
+        if side == LEFT:
+            license_plate = self.cv_raw[LICENSE_PLATE_CAR_VISION_LEFT_Y[0] + top:LICENSE_PLATE_CAR_VISION_LEFT_Y[
+                                                                                     0] + top + LICENSE_PLATE_HEIGHT,
+                            LICENSE_PLATE_CAR_VISION_LEFT_X[0] + left: LICENSE_PLATE_CAR_VISION_LEFT_X[0] + right]
+        else:
+            license_plate = self.cv_raw[
+                            LICENSE_PLATE_CAR_VISION_RIGHT_Y[0] + top:LICENSE_PLATE_CAR_VISION_RIGHT_Y[0] + top +
+                                                                      LICENSE_PLATE_HEIGHT,
+                            LICENSE_PLATE_CAR_VISION_RIGHT_X[0] + left: LICENSE_PLATE_CAR_VISION_RIGHT_X[0] + right]
 
         return license_plate
 
-            # pts = np.array([[LICENSE_PLATE_CAR_VISION_X[0] + left, LICENSE_PLATE_CAR_VISION_Y[0] + top],
-            #        [LICENSE_PLATE_CAR_VISION_X[0] + left, LICENSE_PLATE_CAR_VISION_Y[0] + top + LICENSE_PLATE_HEIGHT],
-            #        [LICENSE_PLATE_CAR_VISION_X[0] + right, LICENSE_PLATE_CAR_VISION_Y[0] + top + LICENSE_PLATE_HEIGHT],
-            #        [LICENSE_PLATE_CAR_VISION_X[0] + right, LICENSE_PLATE_CAR_VISION_Y[0] + top]])
-            #
-            # pts = pts.reshape((-1, 1, 2))
-            #
-            # # cv2.imshow("", cv2.polylines(self.cv_raw, [pts], True, (255, 0, 0), 1))
-            # cv2.imshow("main", self.cv_raw)
-            # cv2.imshow(str(location), license_plate)
-            # cv2.waitKey(1)
+        # pts = np.array([[LICENSE_PLATE_CAR_VISION_X[0] + left, LICENSE_PLATE_CAR_VISION_Y[0] + top],
+        #        [LICENSE_PLATE_CAR_VISION_X[0] + left, LICENSE_PLATE_CAR_VISION_Y[0] + top + LICENSE_PLATE_HEIGHT],
+        #        [LICENSE_PLATE_CAR_VISION_X[0] + right, LICENSE_PLATE_CAR_VISION_Y[0] + top + LICENSE_PLATE_HEIGHT],
+        #        [LICENSE_PLATE_CAR_VISION_X[0] + right, LICENSE_PLATE_CAR_VISION_Y[0] + top]])
+        #
+        # pts = pts.reshape((-1, 1, 2))
+        #
+        # # cv2.imshow("", cv2.polylines(self.cv_raw, [pts], True, (255, 0, 0), 1))
+        # cv2.imshow("main", self.cv_raw)
+        # cv2.imshow(str(location), license_plate)
+        # cv2.waitKey(1)
 
     @staticmethod
     def save_plate(image, name):
@@ -518,13 +598,18 @@ class RobotDriver():
                 true_plates.append(row[0])
         return true_plates
 
-    def find_edge_of_label(self):
+    def find_edge_of_label(self, side):
         """
         Helper function to find the license plate
         :return: the left, right and top of the license plate
         """
-        vision_section = self.cv_raw[LICENSE_PLATE_CAR_VISION_Y[0]:LICENSE_PLATE_CAR_VISION_Y[1],
-                              LICENSE_PLATE_CAR_VISION_X[0]:LICENSE_PLATE_CAR_VISION_X[1]]
+
+        if side == LEFT:
+            vision_section = self.cv_raw[LICENSE_PLATE_CAR_VISION_LEFT_Y[0]:LICENSE_PLATE_CAR_VISION_LEFT_Y[1],
+                             LICENSE_PLATE_CAR_VISION_LEFT_X[0]:LICENSE_PLATE_CAR_VISION_LEFT_X[1]]
+        else:
+            vision_section = self.cv_raw[LICENSE_PLATE_CAR_VISION_RIGHT_Y[0]:LICENSE_PLATE_CAR_VISION_RIGHT_Y[1],
+                             LICENSE_PLATE_CAR_VISION_RIGHT_X[0]:LICENSE_PLATE_CAR_VISION_RIGHT_X[1]]
 
         hsv = cv2.cvtColor(vision_section, cv2.COLOR_RGB2HSV)
 
@@ -570,7 +655,7 @@ class RobotDriver():
 
         return left, right, top
 
-    def found_parked_car(self):
+    def found_parked_car(self, side):
         """
         Check for a parked car in the designated vision section
         :return: If a parked car is present, and the location id
@@ -581,8 +666,13 @@ class RobotDriver():
         if self.parked_car_interval_counter < PARKED_CAR_MINIMUM_INTERVAL:
             return False, -1
 
-        vision_section = self.cv_raw[PARKED_CAR_VISION_Y[0]:PARKED_CAR_VISION_Y[1],
-                              PARKED_CAR_VISION_X[0]:PARKED_CAR_VISION_X[1]]
+        if side == LEFT:
+            vision_section = self.cv_raw[PARKED_CAR_VISION_LEFT_Y[0]:PARKED_CAR_VISION_LEFT_Y[1],
+                             PARKED_CAR_VISION_LEFT_X[0]:PARKED_CAR_VISION_LEFT_X[1]]
+
+        else:
+            vision_section = self.cv_raw[PARKED_CAR_VISION_RIGHT_Y[0]:PARKED_CAR_VISION_RIGHT_Y[1],
+                             PARKED_CAR_VISION_RIGHT_X[0]:PARKED_CAR_VISION_RIGHT_X[1]]
 
         hsv = cv2.cvtColor(vision_section, cv2.COLOR_RGB2HSV)
 
@@ -594,7 +684,23 @@ class RobotDriver():
 
         vision_section_avg = np.average(car_mask_total)
 
-        if vision_section_avg >  PARKED_CAR_AVG_THRESHOLD_SINGLE:
+        # pts = np.array([[PARKED_CAR_VISION_RIGHT_X[0], PARKED_CAR_VISION_RIGHT_Y[0]],
+        #                 [PARKED_CAR_VISION_RIGHT_X[0], PARKED_CAR_VISION_RIGHT_Y[1]],
+        #                 [PARKED_CAR_VISION_RIGHT_X[1], PARKED_CAR_VISION_RIGHT_Y[1]],
+        #                 [PARKED_CAR_VISION_RIGHT_X[1], PARKED_CAR_VISION_RIGHT_Y[0]]])
+        #
+        # pts = pts.reshape((-1, 1, 2))
+
+        # if side == RIGHT:
+        # cv2.imshow("", cv2.polylines(self.cv_raw, [pts], True, (255, 0, 0), 3))
+
+        # cv2.imshow("mask", car_mask_total)
+        # cv2.waitKey(1)
+
+        # if vision_section_avg > 9:
+        # cv2.waitKey()
+
+        if vision_section_avg > PARKED_CAR_AVG_THRESHOLD_SINGLE:
             location_id = PARKED_CAR_ORDER[self.parked_car_counter]
             self.parked_car_counter = 1 + self.parked_car_counter
             if self.parked_car_counter >= len(PARKED_CAR_ORDER):
@@ -605,15 +711,6 @@ class RobotDriver():
 
         else:
             return False, -1
-
-        # pts = np.array([[PARKED_CAR_VISION_X[0], PARKED_CAR_VISION_Y[0]],
-        #        [PARKED_CAR_VISION_X[0], PARKED_CAR_VISION_Y[1]],
-        #        [PARKED_CAR_VISION_X[1], PARKED_CAR_VISION_Y[1]],
-        #        [PARKED_CAR_VISION_X[1], PARKED_CAR_VISION_Y[0]]])
-        #
-        # pts = pts.reshape((-1, 1, 2))
-        #
-        # car_mask_total_with_vs = cv2.polylines(self.cv_raw, [pts], True, (255, 0, 0), 3)
 
     def initial_turn_sequence(self):
         """
