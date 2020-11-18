@@ -3,49 +3,55 @@
 import cv2
 import numpy as np
 from keras import models as m
-
 from PIL import Image
+from matplotlib import pyplot as plt
 
-number_file =  '/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/CNN models/NumberCNN'
-#letter_file = '/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/CNN models/LetterModel'
+from time import sleep
+
+number_file =  '/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/CNN models/NumberModel'
+letter_file = '/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/CNN models/LetterModel'
 
 
 class Reader:
 	def __init__(self):
 		self.number_model = m.load_model(number_file)
-		#self.letter_model = m.load_model(letter_file)
+		self.letter_model = m.load_model(letter_file)
 
 	def license_read(self, img):
 		#Resize image
-		img = cv2.resize(img, (100,20))
+		image = cv2.resize(img, (100,20))
+
+		#Convert to RGB
+		image = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
 
 		#Section image
-		let1 = img[:,6:24]
-		let2 = img[:,25:42]
-		num1 = img[:,57:74]
-		num2 = img[:,75:92]
+		let1 = image[:,7:25]
+		let2 = image[:,26:44]
+		num1 = image[:,56:74]
+		num2 = image[:,74:92]
 
 		#Send through CNNs
-		l1 = letter_model.predict(let1)
-		l2 = letter_model.predict(let2)
-		n1 = number_model.predict(num1)
-		n2 = number_model.predict(num2)
+		l1 = self.letter_model.predict(np.expand_dims(let1,axis=0))[0]
+		l2 = self.letter_model.predict(np.expand_dims(let2,axis=0))[0]
+		n1 = self.number_model.predict(np.expand_dims(num1,axis=0))[0]
+		n2 = self.number_model.predict(np.expand_dims(num2,axis=0))[0]
 
 		#Convert to characters
 		l1 = chr(np.argmax(l1) + ord('A'))
 		l2 = chr(np.argmax(l2) + ord('A'))
-		n1 = np.argmax(n1)
-		n2 = np.argmax(n2)
+		n1 = str(np.argmax(n1).item())
+		n2 = str(np.argmax(n2).item())
 
 		#Combine and send off
 		plate = l1 + l2 + n1 + n2
 
 		return plate
+		
 
 def main():
-	Image.open('/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/AA01.png')
+	img = cv2.imread('/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/New_labeled/WN56.png',1)
 	read = Reader()
-	print('Jello')
+	print(read.license_read(img))
 
 if __name__ == '__main__':
 	main()

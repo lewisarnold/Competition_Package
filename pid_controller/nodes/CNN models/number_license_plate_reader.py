@@ -15,39 +15,13 @@ import cv2
 from collections import Counter
 from matplotlib import pyplot as plt
 from PIL import Image
+from os import listdir
 
-"""# Load Data"""
 
-PATH = "/content/drive/My Drive/Shared ENPH 353/License Plate CNN/Competition CNNs/Cropped and Labelled License Plates"
+#Load Data
+PATH = "/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/CNN models/Cropped and Labelled License Plates"
 
-def files_in_folder(folder_path):
-  '''
-  Returns a list of strings where each entry is a file in the folder_path.
-  
-  Parameters
-  ----------
-  
-  folder_path : str
-     A string to folder for which the file listing is returned.
-     
-  '''
-  files_A = !ls "{folder_path}"
-  # The files when listed from Google Drive have a particular format. They are
-  # grouped in sets of 4 and have spaces and tabs as delimiters.
-  
-  # Split the string listing sets of 4 files by tab and space and remove any 
-  # empty splits.
-  files_B = [list(filter(None, re.split('\t|\s', files))) for files in files_A]
-  
-  # Concatenate all splits into a single sorted list
-  files_C = []
-  for element in files_B:
-    files_C = files_C + element
-  files_C.sort()
-  
-  return files_C
-
-files = files_in_folder(PATH)
+files = listdir(PATH)
 folder = PATH
 
 i = np.random.random_integers(0,100)
@@ -55,38 +29,29 @@ path = PATH + '/' + files[i]
 img = cv2.imread(path)
 h,w,d = img.shape
 sec_w = int(w/4)
-print(h)
-print(w)
 
-# Load the images
+
+#Load the images
 imgset = np.array(
-    [[np.array(Image.open(f'{PATH}/{file}'))[:, sec_w*i:sec_w*(i+1)], file[i]] for file in files
+    [[np.array(Image.open(PATH + '/' + file))[:, sec_w*i:sec_w*(i+1)], file[i]] for file in files
      for i in range(2,4)])
 
 print("Loaded {:} images from folder:\n{}".format(imgset.shape[0], folder))
 
-#Possibly crop white space out of images
-#First images cut first 7
-#Second images cut last 7
-#Third images cut first 7
-#Fourth images cut last 7
 
+#Crop out whitespace
 i = 0
 while(i < 468):
   imgset[i,0] = imgset[i,0][:,7:25]
   imgset[i + 1,0] = imgset[i + 1,0][:,0:18]
   i = i + 2
 
-i = np.random.randint(0,437)
-plt.imshow(imgset[i,0])
-#test cropping
-
-"""# Generate Datasets"""
 
 # Generate X and Y datasets
 np.random.shuffle(imgset)
 X_dataset_orig = np.array([data[0] for data in imgset])
 Y_dataset_orig = np.array([data[1] for data in imgset])
+
 
 #Use numbers 0 to 9 for numbers and 10 to 35 for letters
 def value(char):
@@ -98,6 +63,7 @@ def char(val):
 
 NUMBER_OF_LABELS = 10
 CONFIDENCE_THRESHOLD = 0.01
+
 
 def convert_to_one_hot(Y, C):
     Y = np.reshape(Y,(-1))
@@ -112,20 +78,9 @@ X_dataset = X_dataset_orig/255.
 # Convert Y dataset to one-hot encoding
 Y_dataset = convert_to_one_hot(Y_dataset_orig, NUMBER_OF_LABELS)
 
-i = np.random.random_integers(0,436)
-print(Y_dataset[i])
-plt.imshow(X_dataset[i])
 
+#Split Dataset and begin the MODELLING
 VALIDATION_SPLIT = 0.2
-
-print("Total examples: {:d}\nTraining examples: {:d}\nTest examples: {:d}".
-      format(X_dataset.shape[0],
-             math.ceil(X_dataset.shape[0] * (1-VALIDATION_SPLIT)),
-             math.floor(X_dataset.shape[0] * VALIDATION_SPLIT)))
-print("X shape: " + str(X_dataset.shape))
-print("Y shape: " + str(Y_dataset.shape))
-
-"""# Training CNN"""
 
 from keras import layers
 from keras import models
@@ -136,7 +91,7 @@ from keras import backend
 
 from keras import models
 
-from sklearn.metrics import confusion_matrix, plot_confusion_matrix
+#from sklearn.metrics import confusion_matrix, plot_confusion_matrix
 
 # Source: https://stackoverflow.com/questions/63435679
 def reset_weights(model):
@@ -152,6 +107,7 @@ def reset_weights(model):
               weight_initializer(shape=old_weights.shape),
               bias_initializer(shape=len(old_biases))])
 
+#Create CNN Model
 conv_model = models.Sequential()
 conv_model.add(layers.Conv2D(8, (3, 3), activation='relu',
                              input_shape=(20, 18, 3)))
@@ -164,19 +120,22 @@ conv_model.add(layers.Dense(80, activation='relu'))
 conv_model.add(layers.Dense(50, activation='relu'))
 conv_model.add(layers.Dense(10, activation='softmax'))
 
+#Model Summary
 conv_model.summary()
 
+#Compile and Train
 LEARNING_RATE = 7e-4
 conv_model.compile(loss='categorical_crossentropy',
                    optimizer=optimizers.RMSprop(lr=LEARNING_RATE),
                    metrics=['acc'])
 
-reset_weights(conv_model)
+#reset_weights(conv_model)
 history_conv = conv_model.fit(X_dataset, Y_dataset, 
                               validation_split=VALIDATION_SPLIT, 
                               epochs=100, 
                               batch_size=4)
 
+#Plot Losses
 plt.plot(history_conv.history['loss'])
 plt.plot(history_conv.history['val_loss'])
 plt.title('model loss')
@@ -185,6 +144,7 @@ plt.xlabel('epoch')
 plt.legend(['train loss', 'val loss'], loc='upper left')
 plt.show()
 
+#Plot Accuracy
 plt.plot(history_conv.history['acc'])
 plt.plot(history_conv.history['val_acc'])
 plt.title('model accuracy')
@@ -193,35 +153,8 @@ plt.xlabel('epoch')
 plt.legend(['train accuracy', 'val accuracy'], loc='upper left')
 plt.show()
 
-# Display images in the training data set. 
-def displayImage(index):
-  img = X_dataset[index]
-  
-  img_aug = np.expand_dims(img, axis=0)
-  y_predict = conv_model.predict(img_aug)[0]
-
-  i = 0
-  for y in Y_dataset[index]:
-    if(y == 1):
-      true = i
-    i = i+1
-  predict = np.argmax(y_predict)
-  num = y_predict[predict]
-  
-  plt.imshow(img)  
-  caption = ("Truth: {}".format(char(true))+
-             "\nPredicted: {} at {:.2}".
-             format(char(predict), num))
-  plt.text(0.5, 0.5, caption, 
-           color='orange', fontsize = 16,
-           horizontalalignment='left', verticalalignment='bottom')
-
-
-# interact(displayImage, 
-#         index=ipywidgets.IntSlider(min=0, max=X_dataset_orig.shape[0],
-#                                    step=1, value=10))
-displayImage(np.random.random_integers(0,463))
-
+'''
+#Plot confusion matrix
 import pandas as pd
 import seaborn as sn
 
@@ -245,21 +178,7 @@ df_cm = pd.DataFrame(cm, index = [i for i in label],
                   columns = [i for i in label])
 plt.figure(figsize = (10,7))
 sn.heatmap(df_cm, annot=True)
+'''
 
 #Saving model
 models.save_model(conv_model,'/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/CNN models/NumberModel')
-
-"""# Displaying Images"""
-
-from ipywidgets import interact
-import ipywidgets as ipywidgets
-
-# Display images in the training data set. 
-def displayImage(index):
-  plt.imshow(X_dataset[index])
-
-
-displayImage(4)
-# interact(displayImage, 
-#         index=ipywidgets.IntSlider(min=0, max=X_dataset_orig.shape[0],
-#                                    step=1, value=10))
