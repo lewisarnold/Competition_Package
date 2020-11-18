@@ -1,0 +1,10 @@
+10:38:41.316: Position 1: IQ27
+10:38:41.316: Position 2: TG09
+10:38:41.317: Position 3: ZO76
+10:38:41.318: Position 4: RV41
+10:38:41.318: Position 5: LP15
+10:38:41.319: Position 6: HB31
+10:38:41.319: Position 7: EE95
+10:38:41.319: Position 8: TR81
+10:38:51.317: First command velocity received.
+10:38:51.321: Message received: KL,123,0,AAAA

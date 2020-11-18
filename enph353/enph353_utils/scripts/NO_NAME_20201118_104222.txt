@@ -1,0 +1,10 @@
+10:42:22.148: Position 1: NG34
+10:42:22.148: Position 2: AK06
+10:42:22.148: Position 3: GC46
+10:42:22.151: Position 4: MY87
+10:42:22.151: Position 5: XB15
+10:42:22.151: Position 6: GC90
+10:42:22.151: Position 7: MH09
+10:42:22.152: Position 8: CO31
+10:42:42.774: First command velocity received.
+10:42:42.778: Message received: KL,123,0,AAAA

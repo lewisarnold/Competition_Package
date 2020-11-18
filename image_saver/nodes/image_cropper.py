@@ -19,10 +19,10 @@ def load_and_crop_image(filename):
     cv2.imshow("", cropped_image)
     cv2.waitKey()
 
-    cv2.imwrite("/home/fizzer/ros_ws/src/2020T1_competition/image_saver/nodes/good_images/cropped_pedestrian_front.jpg", cropped_image)
+    cv2.imwrite("//image_saver/nodes/good_images/cropped_pedestrian_front.jpg", cropped_image)
 
 
 
 
 if __name__ == "__main__":
-    load_and_crop_image("/home/fizzer/ros_ws/src/2020T1_competition/image_saver/nodes/good_images/Pedestrianfront.jpg")
+    load_and_crop_image("//image_saver/nodes/good_images/Pedestrianfront.jpg")

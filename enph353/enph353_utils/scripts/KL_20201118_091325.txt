@@ -1,0 +1,13 @@
+09:13:03.890: Position 1: PP87
+09:13:03.891: Position 2: FZ59
+09:13:03.891: Position 3: VL19
+09:13:03.891: Position 4: SV01
+09:13:03.892: Position 5: NB07
+09:13:03.892: Position 6: HB78
+09:13:03.892: Position 7: JU72
+09:13:03.892: Position 8: CO27
+09:13:25.539: Message received: KL,123,0,AAAA
+09:13:25.540: Timer started.
+09:13:25.542: First command velocity received.
+09:13:50.158: Message received: KL,123,-1,ZZZZ
+09:13:50.158: Timer stopped: 41.983sec sim time (real time: 24sec).

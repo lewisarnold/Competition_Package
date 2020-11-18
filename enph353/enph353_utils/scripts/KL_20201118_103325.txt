@@ -1,0 +1,63 @@
+10:33:05.158: Position 1: MN38
+10:33:05.159: Position 2: RG50
+10:33:05.159: Position 3: MU89
+10:33:05.160: Position 4: TY82
+10:33:05.160: Position 5: MK83
+10:33:05.160: Position 6: XO11
+10:33:05.161: Position 7: KL36
+10:33:05.161: Position 8: NF50
+10:33:25.181: Message received: KL,123,0,AAAA
+10:33:25.182: First command velocity received.
+10:33:25.186: Timer started.
+10:33:26.305: Message received: KL,123,2,RG50
+10:33:26.306: Awarded: 6 pts
+10:33:26.307: Team total: 6 pts
+10:33:27.867: Message received: KL,123,3,MU89
+10:33:27.867: Awarded: 6 pts
+10:33:27.869: Team total: 12 pts
+10:33:33.326: Message received: KL,123,4,TY82
+10:33:33.327: Awarded: 6 pts
+10:33:33.330: Team total: 18 pts
+10:33:35.291: Message received: KL,123,5,MK83
+10:33:35.291: Awarded: 6 pts
+10:33:35.293: Team total: 24 pts
+10:33:37.052: Message received: KL,123,6,XO11
+10:33:37.053: Awarded: 6 pts
+10:33:37.054: Team total: 30 pts
+10:33:40.692: Message received: KL,123,1,MN38
+10:33:40.694: Awarded: 6 pts
+10:33:40.698: Team total: 36 pts
+10:33:57.121: Message received: KL,123,7,KL36
+10:33:57.122: Awarded: 8 pts
+10:33:57.124: Team total: 44 pts
+10:34:00.642: Message received: KL,123,8,NF50
+10:34:00.643: Awarded: 8 pts
+10:34:00.644: Team total: 52 pts
+10:34:00.645: Message received: KL,123,-1,ZZZZ
+10:34:00.645: Timer stopped: 54.533sec sim time (real time: 35sec).
+10:36:17.915: Message received: KL,123,0,AAAA
+10:36:17.916: Timer started.
+10:36:19.050: Message received: KL,123,2,RG44
+10:36:19.050: Awarded: 0 pts
+10:36:19.052: Team total: 46 pts
+10:36:20.640: Message received: KL,123,3,MU15
+10:36:20.641: Awarded: 0 pts
+10:36:20.643: Team total: 40 pts
+10:36:27.677: Message received: KL,123,4,TY82
+10:36:27.678: Awarded: 6 pts
+10:36:29.646: Message received: KL,123,5,MK83
+10:36:29.647: Awarded: 6 pts
+10:36:31.417: Message received: KL,123,6,XO31
+10:36:31.418: Awarded: 0 pts
+10:36:31.420: Team total: 34 pts
+10:36:35.060: Message received: KL,123,1,NN38
+10:36:35.061: Awarded: 0 pts
+10:36:35.062: Team total: 28 pts
+10:36:43.052: Message received: KL,123,7,KU36
+10:36:43.053: Awarded: 0 pts
+10:36:43.054: Team total: 20 pts
+10:36:46.589: Message received: KL,123,8,NP50
+10:36:46.590: Awarded: 0 pts
+10:36:46.591: Team total: 12 pts
+10:36:46.592: Message received: KL,123,-1,ZZZZ
+10:36:46.593: Timer stopped: 44.167sec sim time (real time: 28sec).

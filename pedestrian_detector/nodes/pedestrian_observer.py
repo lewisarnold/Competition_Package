@@ -9,7 +9,8 @@ import homography_analyzer
 
 class Listener():
     def run(self):
-        self.homography_analyzer = homography_analyzer.Homography_Analyzer("/home/fizzer/ros_ws/src/2020T1_competition/pedestrian_detector/nodes/good_images/cropped_pedestrian_back.jpg")
+        self.homography_analyzer = homography_analyzer.Homography_Analyzer(
+            "//pedestrian_detector/nodes/good_images/cropped_pedestrian_back.jpg")
 
         rospy.init_node('listener', anonymous=True)
 

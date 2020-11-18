@@ -1,0 +1,80 @@
+10:42:22.148: Position 1: NG34
+10:42:22.148: Position 2: AK06
+10:42:22.148: Position 3: GC46
+10:42:22.151: Position 4: MY87
+10:42:22.151: Position 5: XB15
+10:42:22.151: Position 6: GC90
+10:42:22.151: Position 7: MH09
+10:42:22.152: Position 8: CO31
+10:42:42.774: First command velocity received.
+10:42:42.778: Message received: KL,123,0,AAAA
+10:42:42.780: Timer started.
+10:42:43.883: Message received: KL,123,2,AK66
+10:42:43.884: Awarded: 0 pts
+10:42:45.379: Message received: KL,123,3,CC46
+10:42:45.379: Awarded: 0 pts
+10:42:51.780: Message received: KL,123,4,MY87
+10:42:51.781: Awarded: 6 pts
+10:42:51.782: Team total: 6 pts
+10:42:53.613: Message received: KL,123,5,XB15
+10:42:53.614: Awarded: 6 pts
+10:42:53.616: Team total: 12 pts
+10:42:55.227: Message received: KL,123,6,GC90
+10:42:55.229: Awarded: 6 pts
+10:42:55.233: Team total: 18 pts
+10:42:58.652: Message received: KL,123,1,NG34
+10:42:58.655: Awarded: 6 pts
+10:42:58.656: Team total: 24 pts
+10:43:08.341: Message received: KL,123,7,OJ09
+10:43:08.344: Awarded: 0 pts
+10:43:11.673: Message received: KL,123,8,CJ31
+10:43:11.674: Awarded: 0 pts
+10:43:11.675: Message received: KL,123,-1,ZZZZ
+10:43:11.678: Timer stopped: 47.513sec sim time (real time: 28sec).
+10:46:03.292: Message received: KL,123,0,AAAA
+10:46:03.293: Timer started.
+10:46:04.835: Message received: KL,123,2,AK66
+10:46:04.837: Awarded: 0 pts
+10:46:06.554: Message received: KL,123,3,GC46
+10:46:06.554: Awarded: 6 pts
+10:46:06.555: Team total: 30 pts
+10:46:11.385: Message received: KL,123,4,MY87
+10:46:11.386: Awarded: 6 pts
+10:46:13.345: Message received: KL,123,5,XB16
+10:46:13.347: Awarded: 0 pts
+10:46:13.348: Team total: 24 pts
+10:46:15.060: Message received: KL,123,6,GC56
+10:46:15.061: Awarded: 0 pts
+10:46:15.063: Team total: 18 pts
+10:46:18.669: Message received: KL,123,1,NG34
+10:46:18.670: Awarded: 6 pts
+10:46:28.686: Message received: KL,123,7,OJ09
+10:46:28.687: Awarded: 0 pts
+10:46:32.227: Message received: KL,123,-1,ZZZZ
+10:46:32.228: Timer stopped: 44.195sec sim time (real time: 29sec).
+10:49:03.711: Message received: KL,123,0,AAAA
+10:49:03.712: Timer started.
+10:49:05.037: Message received: KL,123,2,XC66
+10:49:05.038: Awarded: 0 pts
+10:49:06.609: Message received: KL,123,3,GC46
+10:49:06.610: Awarded: 6 pts
+10:49:10.388: Message received: KL,123,4,MY87
+10:49:10.389: Awarded: 6 pts
+10:49:12.327: Message received: KL,123,5,XB15
+10:49:12.328: Awarded: 6 pts
+10:49:12.330: Team total: 24 pts
+10:49:14.063: Message received: KL,123,6,GC56
+10:49:14.064: Awarded: 0 pts
+10:49:17.769: Message received: KL,123,1,NQ34
+10:49:17.770: Awarded: 0 pts
+10:49:17.771: Team total: 18 pts
+10:49:23.621: Message received: KL,123,7,MM09
+10:49:23.622: Awarded: 0 pts
+10:49:27.156: Message received: KL,123,8,CJ31
+10:49:27.157: Awarded: 0 pts
+10:49:27.159: Message received: KL,123,-1,ZZZZ
+10:49:27.161: Timer stopped: 35.594sec sim time (real time: 23sec).
+10:50:15.313: Full lap completed: +5 points
+10:50:15.314: Team total: 23 pts
+10:50:18.312: Full lap completed already awarded points.
+10:50:22.064: Full lap completed already awarded points.

@@ -1,0 +1,10 @@
+10:33:05.158: Position 1: MN38
+10:33:05.159: Position 2: RG50
+10:33:05.159: Position 3: MU89
+10:33:05.160: Position 4: TY82
+10:33:05.160: Position 5: MK83
+10:33:05.160: Position 6: XO11
+10:33:05.161: Position 7: KL36
+10:33:05.161: Position 8: NF50
+10:33:25.181: Message received: KL,123,0,AAAA
+10:33:25.182: First command velocity received.

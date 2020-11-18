@@ -7,6 +7,7 @@ from std_msgs.msg import String
 import numpy as np
 import cv2
 from cv_bridge import CvBridge
+import license_plate_reader
 
 # For reading the true values of license plates.  Can be removed for competition
 import csv
@@ -155,8 +156,9 @@ LEFT = 0
 RIGHT = 1
 
 # Parameters for saving license Plates
-SAVE_PLATES = True
-PLATE_FILE_PATH = "/home/fizzer/ros_ws/src/2020T1_competition/pid_controller/nodes/FullRuns/"
+SAVE_DATA_PLATES = False
+DATA_PLATE_FILE_PATH = "/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/FullRuns/"
+ERROR_PLATE_FILE_PATH = "/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/ERRORS/"
 
 
 class RobotDriver():
@@ -164,6 +166,7 @@ class RobotDriver():
     Defines an object which holds all relevant parameters and information for driving the robot
     Robot can be driven with drive_robot()
     """
+
 
     def __init__(self):
         """
@@ -208,6 +211,8 @@ class RobotDriver():
         # MUST BE REMOVED FOR COMPETITION
         self.true_plates = self.init_plate_value()
 
+        self.License_Plate_Reader =  license_plate_reader.Reader()
+
         self.rate = rospy.Rate(2)
 
         # To hold the current image
@@ -244,7 +249,6 @@ class RobotDriver():
         """
         if self.timer_stopped:
             return
-
 
         # Bridge to cv and then hold it so all helpers can access it
         self.cv_raw = self.image_to_cv_bridge.imgmsg_to_cv2(camera_image_raw, "bgr8")
@@ -364,8 +368,9 @@ class RobotDriver():
         #     print("BOOL" + str(np.average(
         #     mask_bottom) < TRUCK_THRESHOLD_BOTTOM))
 
-        #print(np.average(mask_corner))
-        return (np.average(mask_top) > TRUCK_THRESHOLD_TOP or np.average(mask_corner) > TRUCK_THRESHOLD_CORNER) and np.average(
+        # print(np.average(mask_corner))
+        return (np.average(mask_top) > TRUCK_THRESHOLD_TOP or np.average(
+            mask_corner) > TRUCK_THRESHOLD_CORNER) and np.average(
             mask_bottom) < TRUCK_THRESHOLD_BOTTOM
 
         # if np.average(mask_top) > TRUCK_THRESHOLD_1:
@@ -532,12 +537,16 @@ class RobotDriver():
             license_plate = self.find_license_plate(side)
 
             # TODO: Replace this with the function call to the CNN
-            license_plate_number = self.true_plates[location - 1]
+            predicted_license_plate_number = self.License_Plate_Reader.license_read(license_plate)
+            true_license_plate_number = self.true_plates[location - 1]
 
-            if SAVE_PLATES:
-                self.save_plate(license_plate, str(license_plate_number))
+            if not predicted_license_plate_number == true_license_plate_number:
+                self.save_plate(license_plate, str(true_license_plate_number) + "-" + str(predicted_license_plate_number),ERROR_PLATE_FILE_PATH)
 
-            self.publish_plate(location, str(self.true_plates[location - 1]))
+            if SAVE_DATA_PLATES:
+                self.save_plate(license_plate, str(true_license_plate_number), DATA_PLATE_FILE_PATH)
+
+            self.publish_plate(location, str(predicted_license_plate_number))
 
             # cv2.imshow(license_plate_number, license_plate)
             # cv2.waitKey(1)
@@ -574,22 +583,22 @@ class RobotDriver():
         # cv2.waitKey(1)
 
     @staticmethod
-    def save_plate(image, name):
+    def save_plate(image, name, path):
         """
         Save the license plate to file
         :param image: the license_plate to save
         :param name: the name of the plate file
         """
-        cv2.imwrite(PLATE_FILE_PATH + name + ".png", image)
+        cv2.imwrite(path + name + ".png", image)
 
-    ## CANNOT BE USED IN COMPETITION
+    # CANNOT BE USED IN COMPETITION
     @staticmethod
     def init_plate_value():
         """
         Get the real values of the license plates from the csv file
         :return:
         """
-        LICENSE_PLATE_FILE = '/home/fizzer/ros_ws/src/2020T1_competition/enph353/enph353_gazebo/scripts/plates.csv'
+        LICENSE_PLATE_FILE = '/home/fizzer/ros_ws/src/Competition_Package/enph353/enph353_gazebo/scripts/plates.csv'
         with open(LICENSE_PLATE_FILE, "r") as plate_file:
             platereader = csv.reader(plate_file)
             true_plates = []

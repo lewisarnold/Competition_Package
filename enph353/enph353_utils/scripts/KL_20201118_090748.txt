@@ -1,0 +1,13 @@
+09:04:29.969: Position 1: XM60
+09:04:29.969: Position 2: FK00
+09:04:29.969: Position 3: SQ28
+09:04:29.972: Position 4: KJ66
+09:04:29.972: Position 5: OB61
+09:04:29.972: Position 6: OQ17
+09:04:29.973: Position 7: HE07
+09:04:29.973: Position 8: DX26
+09:07:48.700: Message received: KL,123,0,AAAA
+09:07:48.700: First command velocity received.
+09:07:48.704: Timer started.
+09:08:25.188: Message received: KL,123,-1,ZZZZ
+09:08:25.189: Timer stopped: 61.281sec sim time (real time: 36sec).

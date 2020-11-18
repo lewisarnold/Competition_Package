@@ -14,8 +14,10 @@ letter_file = '/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/
 
 class Reader:
 	def __init__(self):
-		self.number_model = m.load_model(number_file)
-		self.letter_model = m.load_model(letter_file)
+		self.number_model = m.load_model(number_file, compile=False)
+		self.number_model._make_predict_function()
+		self.letter_model = m.load_model(letter_file, compile=False)
+		self.letter_model._make_predict_function()
 
 	def license_read(self, img):
 		#Resize image
@@ -49,7 +51,7 @@ class Reader:
 		
 
 def main():
-	img = cv2.imread('/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/New_labeled/WN56.png',1)
+	img = cv2.imread('/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/New_labeled/AD61.png',1)
 	read = Reader()
 	print(read.license_read(img))
 

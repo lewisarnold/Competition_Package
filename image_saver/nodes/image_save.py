@@ -18,7 +18,7 @@ def callback(image_msg):
 
     cv2.imshow("image", cv_im)
     cv2.waitKey()
-    cv2.imwrite("/home/fizzer/ros_ws/src/2020T1_competition/image_saver/nodes/raw_images/" + str(datetime.now()) + ".jpg", cv_im)
+    cv2.imwrite("/home/fizzer/ros_ws/src/Competition_Package/image_saver/nodes/raw_images/" + str(datetime.now()) + ".jpg", cv_im)
     print("saved image")
 
 def listener():
