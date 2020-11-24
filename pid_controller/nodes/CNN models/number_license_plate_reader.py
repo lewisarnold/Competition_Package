@@ -41,7 +41,7 @@ print("Loaded {:} images from folder:\n{}".format(imgset.shape[0], folder))
 
 #Crop out whitespace
 i = 0
-while(i < 468):
+while(i < imgset.shape[0]):
   imgset[i,0] = imgset[i,0][:,7:25]
   imgset[i + 1,0] = imgset[i + 1,0][:,0:18]
   i = i + 2

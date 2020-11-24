@@ -37,15 +37,16 @@ print("Loaded {:} images from folder:\n{}".format(imgset.shape[0], folder))
 
 #Crop out whitespace
 i = 0
-while(i < 468):
+while(i < imgset.shape[0]):
   imgset[i,0] = imgset[i,0][:,7:25]
   imgset[i + 1,0] = imgset[i + 1,0][:,0:18]
   i = i + 2
 
+'''
 i = np.random.randint(0,467)
 plt.imshow(imgset[i,0])
 plt.show()
-
+'''
 
 # Generate X and Y datasets
 np.random.shuffle(imgset)
