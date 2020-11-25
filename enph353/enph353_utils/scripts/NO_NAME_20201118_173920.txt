@@ -1,0 +1,10 @@
+17:39:20.642: Position 1: FP96
+17:39:20.642: Position 2: HN41
+17:39:20.642: Position 3: PJ17
+17:39:20.643: Position 4: GO40
+17:39:20.643: Position 5: FO37
+17:39:20.643: Position 6: DS17
+17:39:20.644: Position 7: WD11
+17:39:20.644: Position 8: ZS28
+17:43:08.795: Message received: KL,123,0,AAAA
+17:43:08.795: First command velocity received.

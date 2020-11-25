@@ -1,0 +1,10 @@
+17:27:23.520: Position 1: RJ50
+17:27:23.521: Position 2: DE72
+17:27:23.521: Position 3: MV11
+17:27:23.521: Position 4: GR15
+17:27:23.522: Position 5: BL61
+17:27:23.522: Position 6: OW05
+17:27:23.522: Position 7: KE24
+17:27:23.522: Position 8: JN73
+17:27:50.992: First command velocity received.
+17:27:50.996: Message received: KL,123,0,AAAA

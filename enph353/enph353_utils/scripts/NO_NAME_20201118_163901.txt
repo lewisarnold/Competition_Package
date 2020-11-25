@@ -1,0 +1,10 @@
+16:39:01.268: Position 1: BW79
+16:39:01.268: Position 2: TX61
+16:39:01.268: Position 3: ZT38
+16:39:01.270: Position 4: RA57
+16:39:01.270: Position 5: QL67
+16:39:01.270: Position 6: IQ76
+16:39:01.271: Position 7: AC63
+16:39:01.271: Position 8: TW52
+16:40:03.565: First command velocity received.
+16:40:03.571: Message received: KL,123,0,AAAA

@@ -1,0 +1,32 @@
+17:27:23.520: Position 1: RJ50
+17:27:23.521: Position 2: DE72
+17:27:23.521: Position 3: MV11
+17:27:23.521: Position 4: GR15
+17:27:23.522: Position 5: BL61
+17:27:23.522: Position 6: OW05
+17:27:23.522: Position 7: KE24
+17:27:23.522: Position 8: JN73
+17:27:50.992: First command velocity received.
+17:27:50.996: Message received: KL,123,0,AAAA
+17:27:50.997: Timer started.
+17:27:52.087: Message received: KL,123,2,DE72
+17:27:52.087: Awarded: 6 pts
+17:27:52.089: Team total: 6 pts
+17:27:53.505: Message received: KL,123,3,MV31
+17:27:53.506: Awarded: 0 pts
+17:27:58.042: Message received: KL,123,4,GR35
+17:27:58.043: Awarded: 0 pts
+17:27:59.909: Message received: KL,123,5,BL61
+17:27:59.910: Awarded: 6 pts
+17:27:59.912: Team total: 12 pts
+17:28:01.514: Message received: KL,123,6,OW85
+17:28:01.515: Awarded: 0 pts
+17:28:05.998: Message received: KL,123,1,RJ36
+17:28:05.999: Awarded: 0 pts
+17:28:07.185: Full lap completed: +5 points
+17:28:07.187: Team total: 17 pts
+17:28:26.676: Message received: KL,123,7,KE24
+17:28:26.680: Awarded: 8 pts
+17:28:26.681: Team total: 25 pts
+17:28:29.886: Message received: KL,123,-1,ZZZZ
+17:28:29.887: Timer stopped: 64.888sec sim time (real time: 38sec).

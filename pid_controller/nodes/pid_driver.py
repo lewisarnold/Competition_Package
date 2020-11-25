@@ -128,8 +128,8 @@ PARKED_CAR_AVG_THRESHOLD_SINGLE = 140
 # The preplanned route: which parking locations it will see in order
 PARKED_CAR_ORDER = [2, 3, 4, 5, 6, 1, 7, 8]
 
-# Minimum number of loops between parked cars so the same one isn't seen twice
-PARKED_CAR_MINIMUM_INTERVAL = 20
+# Minimum tuime between parked cars
+MIN_TIME_BETWEEN_CARS = 2
 
 PARKED_CAR_COLOUR_LOWER_BOUND_1 = (0, 0, 95)
 PARKED_CAR_COLOUR_UPPER_BOUND_1 = (10, 10, 105)
@@ -157,7 +157,7 @@ RIGHT = 1
 
 # Parameters for saving license Plates
 SAVE_DATA_PLATES = False
-DATA_PLATE_FILE_PATH = "/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/FullRuns/"
+DATA_PLATE_FILE_PATH = "/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/LotsOFData/"
 ERROR_PLATE_FILE_PATH = "/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/ERRORS/"
 
 
@@ -187,6 +187,8 @@ class RobotDriver():
 
         self.last_crosswalk_time = rospy.get_time() - MIN_TIME_BETWEEN_CROSSWALKS
         self.crosswalk_count = 0
+
+        self.last_car_time = rospy.get_time() - MIN_TIME_BETWEEN_CARS
 
         # the time when a turning operation was commenced
         self.start_turning_time = None
@@ -239,7 +241,9 @@ class RobotDriver():
         self.image_subscriber = rospy.Subscriber('/R1/pi_camera/image_raw', Image, self.on_image_receive)
 
         # Control now happens from the on_image_receive callback
-        rospy.spin()
+        while not self.timer_stopped and not rospy.core.is_shutdown():
+            rospy.rostime.wallsleep(0.5)
+        #rospy.spin()
 
     def on_image_receive(self, camera_image_raw):
         """
@@ -534,17 +538,23 @@ class RobotDriver():
 
         # If we found it, do the work
         if found_car:
+            self.last_car_time = rospy.get_time()
             license_plate = self.find_license_plate(side)
 
-            # TODO: Replace this with the function call to the CNN
             predicted_license_plate_number = self.License_Plate_Reader.license_read(license_plate)
             true_license_plate_number = self.true_plates[location - 1]
 
             if not predicted_license_plate_number == true_license_plate_number:
-                self.save_plate(license_plate, str(true_license_plate_number) + "-" + str(predicted_license_plate_number),ERROR_PLATE_FILE_PATH)
+                #self.save_plate(license_plate, str(true_license_plate_number) + "-" + str(predicted_license_plate_number),ERROR_PLATE_FILE_PATH, 1)
+                self.save_plate(license_plate, str(true_license_plate_number) + "-ER",DATA_PLATE_FILE_PATH, 5)
 
-            if SAVE_DATA_PLATES:
-                self.save_plate(license_plate, str(true_license_plate_number), DATA_PLATE_FILE_PATH)
+            elif self.on_inside:
+                self.save_plate(license_plate, str(true_license_plate_number) + "-I", DATA_PLATE_FILE_PATH, 3)
+
+            else:
+                self.save_plate(license_plate, str(true_license_plate_number), DATA_PLATE_FILE_PATH, 1)
+            # if SAVE_DATA_PLATES:
+            #     self.save_plate(license_plate, str(true_license_plate_number), DATA_PLATE_FILE_PATH, 1)
 
             self.publish_plate(location, str(predicted_license_plate_number))
 
@@ -583,13 +593,14 @@ class RobotDriver():
         # cv2.waitKey(1)
 
     @staticmethod
-    def save_plate(image, name, path):
+    def save_plate(image, name, path, count):
         """
         Save the license plate to file
         :param image: the license_plate to save
         :param name: the name of the plate file
         """
-        cv2.imwrite(path + name + ".png", image)
+        for i in range(count):
+            cv2.imwrite(path + name + "-" + str(i) + ".png", image)
 
     # CANNOT BE USED IN COMPETITION
     @staticmethod
@@ -669,11 +680,12 @@ class RobotDriver():
         Check for a parked car in the designated vision section
         :return: If a parked car is present, and the location id
         """
-        # Keep track of loops since last parked car
-        self.parked_car_interval_counter = self.parked_car_interval_counter + 1
 
-        if self.parked_car_interval_counter < PARKED_CAR_MINIMUM_INTERVAL:
+        if rospy.get_time() - self.last_car_time < MIN_TIME_BETWEEN_CARS:
             return False, -1
+
+
+
 
         if side == LEFT:
             vision_section = self.cv_raw[PARKED_CAR_VISION_LEFT_Y[0]:PARKED_CAR_VISION_LEFT_Y[1],
@@ -716,6 +728,7 @@ class RobotDriver():
                 self.finished = True
 
             self.parked_car_interval_counter = 0
+            self.last_car_time = rospy.get_time()
             return True, location_id
 
         else:

@@ -1,9 +1,9 @@
 #!/bin/bash
 
-spawn_vehicles='false'
-spawn_pedestrians='false'
-generate_plates='false'
-label_plates='false'
+spawn_vehicles='true'
+spawn_pedestrians='true'
+generate_plates='true'
+label_plates='true'
 
 print_usage() {
   echo "Usage:"

@@ -1,0 +1,55 @@
+16:33:05.742: Position 1: GY18
+16:33:05.743: Position 2: MR12
+16:33:05.743: Position 3: VC13
+16:33:05.745: Position 4: BG14
+16:33:05.746: Position 5: NI73
+16:33:05.746: Position 6: OH01
+16:33:05.746: Position 7: JO73
+16:33:05.746: Position 8: CZ23
+16:34:44.905: Message received: KL,123,0,AAAA
+16:34:44.906: Timer started.
+16:34:44.907: First command velocity received.
+16:34:46.302: Message received: KL,123,2,NR11
+16:34:46.303: Awarded: 0 pts
+16:34:47.750: Message received: KL,123,3,VC13
+16:34:47.751: Awarded: 6 pts
+16:34:47.752: Team total: 6 pts
+16:34:52.735: Message received: KL,123,4,BG14
+16:34:52.735: Awarded: 6 pts
+16:34:52.738: Team total: 12 pts
+16:34:54.738: Message received: KL,123,5,NI73
+16:34:54.739: Awarded: 6 pts
+16:34:54.741: Team total: 18 pts
+16:34:56.557: Message received: KL,123,6,OW01
+16:34:56.558: Awarded: 0 pts
+16:35:05.028: Message received: KL,123,1,CY18
+16:35:05.029: Awarded: 0 pts
+16:35:17.139: Message received: KL,123,7,JJ73
+16:35:17.139: Awarded: 0 pts
+16:35:20.790: Message received: KL,123,8,VF23
+16:35:20.791: Awarded: 0 pts
+16:35:20.792: Message received: KL,123,-1,ZZZZ
+16:35:20.794: Timer stopped: 53.799sec sim time (real time: 35sec).
+16:37:22.101: Message received: KL,123,0,AAAA
+16:37:22.102: Timer started.
+16:37:23.243: Message received: KL,123,2,MR12
+16:37:23.245: Awarded: 6 pts
+16:37:23.246: Team total: 24 pts
+16:37:24.704: Message received: KL,123,3,VC33
+16:37:24.705: Awarded: 0 pts
+16:37:24.705: Team total: 18 pts
+16:37:29.812: Message received: KL,123,4,BQ14
+16:37:29.813: Awarded: 0 pts
+16:37:29.821: Team total: 12 pts
+16:37:31.569: Message received: KL,123,5,NI73
+16:37:31.570: Awarded: 6 pts
+16:37:33.312: Message received: KL,123,6,OH61
+16:37:33.313: Awarded: 0 pts
+16:37:37.979: Message received: KL,123,1,RP18
+16:37:37.980: Awarded: 0 pts
+16:37:48.968: Message received: KL,123,7,JJ73
+16:37:48.970: Awarded: 0 pts
+16:37:52.348: Message received: KL,123,8,CI23
+16:37:52.349: Awarded: 0 pts
+16:37:52.352: Message received: KL,123,-1,ZZZZ
+16:37:52.353: Timer stopped: 49.498sec sim time (real time: 30sec).
