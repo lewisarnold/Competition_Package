@@ -1,0 +1,10 @@
+15:41:48.964: Position 1: SH21
+15:41:48.965: Position 2: WH09
+15:41:48.965: Position 3: KC49
+15:41:48.967: Position 4: WD95
+15:41:48.967: Position 5: II10
+15:41:48.968: Position 6: CW56
+15:41:48.968: Position 7: YD70
+15:41:48.969: Position 8: DM55
+15:42:27.621: Message received: KL,123,0,AAAA
+15:42:27.622: Timer started.

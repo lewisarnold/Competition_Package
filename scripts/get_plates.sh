@@ -2,7 +2,8 @@
 
 source ~/ros_ws/devel/setup.bash
 
-cd ~/ros_ws/src/Competiton_Package/enph353/enph353_utils/scripts
+cd ~/ros_ws/src/Competition_Package/enph353/enph353_utils/scripts
+
 
 for j in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
 

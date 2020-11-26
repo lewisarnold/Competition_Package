@@ -1,0 +1,9 @@
+15:50:47.215: Position 1: BY61
+15:50:47.215: Position 2: CM92
+15:50:47.215: Position 3: WA91
+15:50:47.215: Position 4: WQ88
+15:50:47.216: Position 5: FO98
+15:50:47.216: Position 6: RP15
+15:50:47.216: Position 7: HI78
+15:50:47.216: Position 8: NW64
+15:50:55.892: First command velocity received.

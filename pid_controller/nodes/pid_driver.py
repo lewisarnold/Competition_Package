@@ -126,7 +126,9 @@ PARKED_CAR_VISION_RIGHT_Y = (370, 470)
 PARKED_CAR_AVG_THRESHOLD_SINGLE = 140
 
 # The preplanned route: which parking locations it will see in order
+#TODO:
 PARKED_CAR_ORDER = [2, 3, 4, 5, 6, 1, 7, 8]
+#PARKED_CAR_ORDER = [7, 8]
 
 # Minimum tuime between parked cars
 MIN_TIME_BETWEEN_CARS = 2
@@ -157,7 +159,7 @@ RIGHT = 1
 
 # Parameters for saving license Plates
 SAVE_DATA_PLATES = False
-DATA_PLATE_FILE_PATH = "/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/LotsOFData/"
+DATA_PLATE_FILE_PATH =  "/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/Inside Data/" #"/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/LotsOFData/"
 ERROR_PLATE_FILE_PATH = "/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/ERRORS/"
 
 
@@ -193,16 +195,23 @@ class RobotDriver():
         # the time when a turning operation was commenced
         self.start_turning_time = None
         self.turning_initiated = False
+
+        #TODO:
         self.completed_turn = False
+        #self.completed_turn = True
 
         # whether the pedestrian is clear from the road
         self.pedestrian_aside = True
 
         # True when we go to the inside loop
+        # TODO:
         self.on_inside = False
+        #self.on_inside = True
 
         # True when the truck has been spotted in the designated spot
         self.truck_known = False
+        # TODO:
+        #self.truck_known = True
 
         # True when the course has been run
         self.finished = False
@@ -224,7 +233,7 @@ class RobotDriver():
         self.image_subscriber = None
 
         if WAIT:
-            rospy.sleep(15)
+            rospy.sleep(8)
 
     def drive_robot(self):
         """
@@ -233,8 +242,10 @@ class RobotDriver():
         """
         # Start the timer
         self.activate_timer(START)
+        rospy.sleep(0.05)
 
         # Hardcode turn sequence so robot goes left off the start
+        # TODO:
         self.initial_turn_sequence()
 
         # Subscribe to images

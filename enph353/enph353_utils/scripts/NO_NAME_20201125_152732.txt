@@ -1,0 +1,10 @@
+15:27:32.833: Position 1: KO87
+15:27:32.834: Position 2: ET14
+15:27:32.834: Position 3: KK56
+15:27:32.835: Position 4: KE55
+15:27:32.835: Position 5: VU24
+15:27:32.835: Position 6: WT04
+15:27:32.836: Position 7: OK02
+15:27:32.836: Position 8: XU39
+15:28:06.256: Message received: KL,123,0,AAAA
+15:28:06.256: First command velocity received.
