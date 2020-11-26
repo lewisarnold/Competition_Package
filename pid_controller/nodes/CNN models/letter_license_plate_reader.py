@@ -111,20 +111,18 @@ def reset_weights(model):
               bias_initializer(shape=len(old_biases))])
 
 conv_model = models.Sequential()
-conv_model.add(layers.Conv2D(8, (3, 3), activation='relu',
-                             input_shape=(20, 18, 3)))
+conv_model.add(layers.Conv2D(15, (3, 3), activation='relu', input_shape=(20, 18, 3)))
 conv_model.add(layers.MaxPooling2D((2, 2)))
-conv_model.add(layers.Conv2D(16, (3, 3), activation='relu'))
+conv_model.add(layers.Conv2D(30, (3, 3), activation='relu'))
 conv_model.add(layers.MaxPooling2D((2, 2)))
 conv_model.add(layers.Flatten())
 conv_model.add(layers.Dropout(0.5))
 conv_model.add(layers.Dense(120, activation='relu'))
 conv_model.add(layers.Dense(84, activation='relu'))
 conv_model.add(layers.Dense(26, activation='softmax'))
-
 conv_model.summary()
 
-LEARNING_RATE = 6e-4
+LEARNING_RATE = 7e-4
 conv_model.compile(loss='categorical_crossentropy',
                    optimizer=optimizers.RMSprop(lr=LEARNING_RATE),
                    metrics=['acc'])
@@ -132,7 +130,7 @@ conv_model.compile(loss='categorical_crossentropy',
 #reset_weights(conv_model)
 history_conv = conv_model.fit(X_dataset, Y_dataset, 
                               validation_split=VALIDATION_SPLIT, 
-                              epochs=120, 
+                              epochs=100, 
                               batch_size=4)
 
 plt.plot(history_conv.history['loss'])
