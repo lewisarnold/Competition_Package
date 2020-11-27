@@ -19,18 +19,25 @@ from os import listdir
 
 
 #Load Data
-PATH = "/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/CNN models/Cropped and Labelled License Plates"
+PATH1 = "/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/CNN models/Cropped and Labelled License Plates"
+PATH2 = 
 
-files = listdir(PATH)
-folder = PATH
+files1 = listdir(PATH1)
+folder1 = PATH1
+files2 = listdir(PATH2)
+folder2 = PATH2
 
 sec_w = 25
 
 
 # Load the images
-imgset = np.array(
-    [[np.array(Image.open(PATH + '/' + file))[:, sec_w*i:sec_w*(i+1)], file[i]] for file in files
+imgset1 = np.array(
+    [[np.array(Image.open(PATH1 + '/' + file))[:, sec_w*i:sec_w*(i+1)], file[i]] for file in files1
      for i in range(2)])
+imgset2 = np.array(
+    [[np.array(Image.open(PATH2 + '/' + file))[:, sec_w*i:sec_w*(i+1)], file[i]] for file in files2
+     for i in range(2)])
+
 
 print("Loaded {:} images from folder:\n{}".format(imgset.shape[0], folder))
 
