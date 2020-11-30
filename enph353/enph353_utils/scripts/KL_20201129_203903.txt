@@ -1,0 +1,36 @@
+20:38:47.474: Position 1: KI62
+20:38:47.474: Position 2: ZV40
+20:38:47.474: Position 3: PB45
+20:38:47.477: Position 4: CI76
+20:38:47.477: Position 5: KQ54
+20:38:47.478: Position 6: VB15
+20:38:47.478: Position 7: JM33
+20:38:47.478: Position 8: VE58
+20:39:03.619: Message received: KL,123,0,AAAA
+20:39:03.620: Timer started.
+20:39:03.644: First command velocity received.
+20:39:04.560: Message received: KL,123,2,ZV40
+20:39:04.560: Awarded: 6 pts
+20:39:04.561: Team total: 6 pts
+20:39:06.015: Message received: KL,123,3,PB45
+20:39:06.016: Awarded: 6 pts
+20:39:06.017: Team total: 12 pts
+20:39:10.954: Message received: KL,123,4,CI76
+20:39:10.955: Awarded: 6 pts
+20:39:10.957: Team total: 18 pts
+20:39:12.751: Message received: KL,123,5,KQ54
+20:39:12.751: Awarded: 6 pts
+20:39:12.753: Team total: 24 pts
+20:39:14.312: Message received: KL,123,6,VB15
+20:39:14.313: Awarded: 6 pts
+20:39:14.315: Team total: 30 pts
+20:39:17.605: Message received: KL,123,1,KI42
+20:39:17.605: Awarded: 0 pts
+20:39:27.583: Message received: KL,123,7,JM33
+20:39:27.584: Awarded: 8 pts
+20:39:27.586: Team total: 38 pts
+20:39:30.754: Message received: KL,123,8,VE58
+20:39:30.754: Awarded: 8 pts
+20:39:30.759: Team total: 46 pts
+20:39:30.784: Message received: KL,123,-1,ZZZZ
+20:39:30.785: Timer stopped: 46.227sec sim time (real time: 27sec).

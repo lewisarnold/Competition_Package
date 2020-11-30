@@ -1,0 +1,10 @@
+20:14:24.663: Position 1: HH52
+20:14:24.663: Position 2: CD43
+20:14:24.663: Position 3: EQ38
+20:14:24.663: Position 4: TL37
+20:14:24.663: Position 5: BD01
+20:14:24.664: Position 6: NH72
+20:14:24.664: Position 7: CZ15
+20:14:24.664: Position 8: AB34
+20:14:25.389: First command velocity received.
+20:14:43.069: Message received: KL,123,0,AAAA

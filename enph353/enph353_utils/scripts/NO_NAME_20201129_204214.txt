@@ -1,0 +1,9 @@
+20:42:14.537: Position 1: HC17
+20:42:14.537: Position 2: KM94
+20:42:14.537: Position 3: GJ89
+20:42:14.538: Position 4: KT94
+20:42:14.538: Position 5: VL50
+20:42:14.539: Position 6: KL56
+20:42:14.539: Position 7: OJ67
+20:42:14.540: Position 8: SJ20
+20:42:25.880: Message received: Yes We CaNN,2000,0,AAAA

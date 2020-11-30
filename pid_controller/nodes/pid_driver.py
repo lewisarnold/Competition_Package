@@ -32,8 +32,8 @@ SHOW_ROAD_VISION = False
 WAITKEY = False
 
 # Parameters for the timer
-TEAM_ID = "KL"
-TEAM_PW = "123"
+TEAM_ID = "Yes We CaNN"
+TEAM_PW = "2000"
 
 # Codes for the activate_timer function
 START = 1
@@ -159,8 +159,8 @@ RIGHT = 1
 
 # Parameters for saving license Plates
 SAVE_DATA_PLATES = False
-DATA_PLATE_FILE_PATH =  "/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/Inside Data/" #"/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/LotsOFData/"
-ERROR_PLATE_FILE_PATH = "/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/ERRORS/"
+DATA_PLATE_FILE_PATH =  "/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/ExtraDataForTraining/" #"/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/LotsOFData/"
+ERROR_PLATE_FILE_PATH = "/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/Errors/"
 
 
 class RobotDriver():
@@ -368,12 +368,6 @@ class RobotDriver():
 
         mask_bottom = cv2.inRange(vision_square_bottom, TRUCK_COLOUR_LOWER_BOUND_MIDDLE_AREA,
                                   TRUCK_COLOUR_UPPER_BOUND_MIDDLE_AREA)
-
-        vision_square_corner = self.cv_raw[TRUCK_MONITOR_ZONE_CORNER_Y[0]:TRUCK_MONITOR_ZONE_CORNER_Y[1],
-                               TRUCK_MONITOR_ZONE_CORNER_X[0]:TRUCK_MONITOR_ZONE_CORNER_X[1]]
-
-        mask_corner = cv2.inRange(vision_square_corner, TRUCK_COLOUR_LOWER_BOUND_CORNER,
-                                  TRUCK_COLOUR_UPPER_BOUND_CORNER)
         # if (np.average(mask_top) > TRUCK_THRESHOLD_TOP or np.average(mask_corner) > TRUCK_THRESHOLD_CORNER) and np.average(
         #     mask_bottom) < TRUCK_THRESHOLD_BOTTOM:
         #     print("top" + str(np.average(mask_top)))
@@ -384,8 +378,7 @@ class RobotDriver():
         #     mask_bottom) < TRUCK_THRESHOLD_BOTTOM))
 
         # print(np.average(mask_corner))
-        return (np.average(mask_top) > TRUCK_THRESHOLD_TOP or np.average(
-            mask_corner) > TRUCK_THRESHOLD_CORNER) and np.average(
+        return np.average(mask_top) > TRUCK_THRESHOLD_TOP and np.average(
             mask_bottom) < TRUCK_THRESHOLD_BOTTOM
 
         # if np.average(mask_top) > TRUCK_THRESHOLD_1:
@@ -556,18 +549,17 @@ class RobotDriver():
             true_license_plate_number = self.true_plates[location - 1]
 
             if not predicted_license_plate_number == true_license_plate_number:
-                #self.save_plate(license_plate, str(true_license_plate_number) + "-" + str(predicted_license_plate_number),ERROR_PLATE_FILE_PATH, 1)
-                self.save_plate(license_plate, str(true_license_plate_number) + "-ER",DATA_PLATE_FILE_PATH, 5)
+                self.save_plate(license_plate, str(true_license_plate_number) + "-" + str(predicted_license_plate_number),ERROR_PLATE_FILE_PATH)
 
-            elif self.on_inside:
-                self.save_plate(license_plate, str(true_license_plate_number) + "-I", DATA_PLATE_FILE_PATH, 3)
 
-            else:
-                self.save_plate(license_plate, str(true_license_plate_number), DATA_PLATE_FILE_PATH, 1)
-            # if SAVE_DATA_PLATES:
-            #     self.save_plate(license_plate, str(true_license_plate_number), DATA_PLATE_FILE_PATH, 1)
+            self.save_plate(license_plate, str(true_license_plate_number), DATA_PLATE_FILE_PATH)
 
             self.publish_plate(location, str(predicted_license_plate_number))
+
+            if self.parked_car_counter >= len(PARKED_CAR_ORDER):
+                rospy.sleep(0.05)
+                self.finished = True
+                print("finished")
 
             # cv2.imshow(license_plate_number, license_plate)
             # cv2.waitKey(1)
@@ -604,14 +596,13 @@ class RobotDriver():
         # cv2.waitKey(1)
 
     @staticmethod
-    def save_plate(image, name, path, count):
+    def save_plate(image, name, path):
         """
         Save the license plate to file
         :param image: the license_plate to save
         :param name: the name of the plate file
         """
-        for i in range(count):
-            cv2.imwrite(path + name + "-" + str(i) + ".png", image)
+        cv2.imwrite(path + name + ".png", image)
 
     # CANNOT BE USED IN COMPETITION
     @staticmethod
@@ -735,8 +726,6 @@ class RobotDriver():
         if vision_section_avg > PARKED_CAR_AVG_THRESHOLD_SINGLE:
             location_id = PARKED_CAR_ORDER[self.parked_car_counter]
             self.parked_car_counter = 1 + self.parked_car_counter
-            if self.parked_car_counter >= len(PARKED_CAR_ORDER):
-                self.finished = True
 
             self.parked_car_interval_counter = 0
             self.last_car_time = rospy.get_time()

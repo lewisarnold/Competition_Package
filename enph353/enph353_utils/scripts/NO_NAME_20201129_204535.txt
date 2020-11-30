@@ -1,0 +1,9 @@
+20:45:35.462: Position 1: EQ54
+20:45:35.462: Position 2: ZT40
+20:45:35.462: Position 3: EI60
+20:45:35.465: Position 4: LX91
+20:45:35.465: Position 5: BU99
+20:45:35.465: Position 6: SX07
+20:45:35.465: Position 7: LO31
+20:45:35.466: Position 8: NL31
+20:45:42.665: Message received: Yes We CaNN,2000,0,AAAA

@@ -1,0 +1,11 @@
+20:11:29.922: Position 1: UM97
+20:11:29.922: Position 2: PJ48
+20:11:29.922: Position 3: GH76
+20:11:29.923: Position 4: FY03
+20:11:29.923: Position 5: ZW80
+20:11:29.924: Position 6: XH39
+20:11:29.924: Position 7: AT60
+20:11:29.924: Position 8: VN99
+20:12:02.556: Message received: KL,123,0,AAAA
+20:12:02.558: Timer started.
+20:12:02.583: First command velocity received.
