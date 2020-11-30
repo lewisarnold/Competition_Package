@@ -109,10 +109,10 @@ def reset_weights(model):
 
 #Create CNN Model
 conv_model = models.Sequential()
-conv_model.add(layers.Conv2D(10, (3, 3), activation='relu',
+conv_model.add(layers.Conv2D(20, (2, 2), activation='relu',
                              input_shape=(20, 18, 3)))
 conv_model.add(layers.MaxPooling2D((2, 2)))
-conv_model.add(layers.Conv2D(20, (3, 3), activation='relu'))
+conv_model.add(layers.Conv2D(40, (3, 3), activation='relu'))
 conv_model.add(layers.MaxPooling2D((2, 2)))
 conv_model.add(layers.Flatten())
 conv_model.add(layers.Dropout(0.5))

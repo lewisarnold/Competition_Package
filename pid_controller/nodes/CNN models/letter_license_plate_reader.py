@@ -19,28 +19,22 @@ from os import listdir
 
 
 #Load Data
-PATH1 = "/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/CNN models/Cropped and Labelled License Plates"
-PATH2 = 
+PATH = "/home/fizzer/ros_ws/src/Competition_Package/pid_controller/nodes/CNN models/Cropped and Labelled License Plates"
 
-files1 = listdir(PATH1)
-folder1 = PATH1
-files2 = listdir(PATH2)
-folder2 = PATH2
+files = listdir(PATH)
+folder = PATH
 
 sec_w = 25
 
 
 # Load the images
-imgset1 = np.array(
-    [[np.array(Image.open(PATH1 + '/' + file))[:, sec_w*i:sec_w*(i+1)], file[i]] for file in files1
-     for i in range(2)])
-imgset2 = np.array(
-    [[np.array(Image.open(PATH2 + '/' + file))[:, sec_w*i:sec_w*(i+1)], file[i]] for file in files2
+imgset = np.array(
+    [[np.array(Image.open(PATH + '/' + file))[:, sec_w*i:sec_w*(i+1)], file[i]] for file in files
      for i in range(2)])
 
 
-print("Loaded {:} images from folder:\n{}".format(imgset.shape[0], folder))
 
+print("Loaded {:} images from real folder:\n{}".format(imgset.shape[0], folder))
 
 #Crop out whitespace
 i = 0
@@ -89,7 +83,7 @@ print(Y_dataset[i])
 plt.imshow(X_dataset[i])
 plt.show()
 
-#Split Dataset and begin the MODELLING
+#Begin the MODELLING
 VALIDATION_SPLIT = 0.2
 
 from keras import layers
@@ -118,18 +112,23 @@ def reset_weights(model):
               bias_initializer(shape=len(old_biases))])
 
 conv_model = models.Sequential()
-conv_model.add(layers.Conv2D(15, (3, 3), activation='relu', input_shape=(20, 18, 3)))
+conv_model.add(layers.Conv2D(30, (4, 4), activation='relu', input_shape=(20, 18, 3)))
+conv_model.add(layers.MaxPooling2D((1, 1)))
+conv_model.add(layers.Conv2D(60, (3, 3), activation='relu'))
 conv_model.add(layers.MaxPooling2D((2, 2)))
-conv_model.add(layers.Conv2D(30, (3, 3), activation='relu'))
+conv_model.add(layers.Conv2D(90, (3, 3), activation='relu'))
 conv_model.add(layers.MaxPooling2D((2, 2)))
+conv_model.add(layers.Conv2D(120, (2, 2), activation='relu'))
+conv_model.add(layers.MaxPooling2D((1, 1)))
 conv_model.add(layers.Flatten())
 conv_model.add(layers.Dropout(0.5))
+conv_model.add(layers.Dense(180, activation='relu'))
 conv_model.add(layers.Dense(120, activation='relu'))
 conv_model.add(layers.Dense(84, activation='relu'))
 conv_model.add(layers.Dense(26, activation='softmax'))
 conv_model.summary()
 
-LEARNING_RATE = 7e-4
+LEARNING_RATE = 5e-4
 conv_model.compile(loss='categorical_crossentropy',
                    optimizer=optimizers.RMSprop(lr=LEARNING_RATE),
                    metrics=['acc'])
@@ -137,7 +136,7 @@ conv_model.compile(loss='categorical_crossentropy',
 #reset_weights(conv_model)
 history_conv = conv_model.fit(X_dataset, Y_dataset, 
                               validation_split=VALIDATION_SPLIT, 
-                              epochs=100, 
+                              epochs=50, 
                               batch_size=4)
 
 plt.plot(history_conv.history['loss'])
