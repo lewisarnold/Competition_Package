@@ -1,0 +1,9 @@
+21:02:40.799: Position 1: CV89
+21:02:40.800: Position 2: ZQ60
+21:02:40.800: Position 3: EH89
+21:02:40.801: Position 4: DJ98
+21:02:40.802: Position 5: XI56
+21:02:40.802: Position 6: JZ94
+21:02:40.802: Position 7: QE06
+21:02:40.802: Position 8: VG75
+21:02:52.678: Message received: Yes We CaNN,2000,0,AAAA

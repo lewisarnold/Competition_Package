@@ -1,0 +1,9 @@
+21:04:39.527: Position 1: VD64
+21:04:39.528: Position 2: LG86
+21:04:39.528: Position 3: WB42
+21:04:39.528: Position 4: UG59
+21:04:39.528: Position 5: ZJ06
+21:04:39.528: Position 6: OF62
+21:04:39.529: Position 7: ND67
+21:04:39.529: Position 8: VZ34
+21:04:52.177: Message received: Yes We CaNN,2000,0,AAAA

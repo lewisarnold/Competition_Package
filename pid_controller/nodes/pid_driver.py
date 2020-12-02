@@ -9,8 +9,6 @@ import cv2
 from cv_bridge import CvBridge
 import license_plate_reader
 
-# For reading the true values of license plates.  Can be removed for competition
-import csv
 
 # Standard forward drive speed 0.425 is maximum reliable speed as of 14 November
 FULL_SPEED_LINEAR = 0.425
@@ -218,9 +216,6 @@ class RobotDriver():
 
         # True when timer stopped
         self.timer_stopped = False
-
-        # MUST BE REMOVED FOR COMPETITION
-        self.true_plates = self.init_plate_value()
 
         self.License_Plate_Reader =  license_plate_reader.Reader()
 
@@ -546,13 +541,9 @@ class RobotDriver():
             license_plate = self.find_license_plate(side)
 
             predicted_license_plate_number = self.License_Plate_Reader.license_read(license_plate)
-            true_license_plate_number = self.true_plates[location - 1]
-
-            if not predicted_license_plate_number == true_license_plate_number:
-                self.save_plate(license_plate, str(true_license_plate_number) + "-" + str(predicted_license_plate_number),ERROR_PLATE_FILE_PATH)
 
 
-            self.save_plate(license_plate, str(true_license_plate_number), DATA_PLATE_FILE_PATH)
+            #self.save_plate(license_plate, str(true_license_plate_number), DATA_PLATE_FILE_PATH)
 
             self.publish_plate(location, str(predicted_license_plate_number))
 
@@ -604,21 +595,7 @@ class RobotDriver():
         """
         cv2.imwrite(path + name + ".png", image)
 
-    # CANNOT BE USED IN COMPETITION
-    @staticmethod
-    def init_plate_value():
-        """
-        Get the real values of the license plates from the csv file
-        :return:
-        """
-        LICENSE_PLATE_FILE = '/home/fizzer/ros_ws/src/Competition_Package/enph353/enph353_gazebo/scripts/plates.csv'
-        with open(LICENSE_PLATE_FILE, "r") as plate_file:
-            platereader = csv.reader(plate_file)
-            true_plates = []
-            i = 0
-            for row in platereader:
-                true_plates.append(row[0])
-        return true_plates
+
 
     def find_edge_of_label(self, side):
         """

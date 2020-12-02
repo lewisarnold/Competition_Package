@@ -1,0 +1,9 @@
+21:06:39.808: Position 1: RT11
+21:06:39.808: Position 2: JT70
+21:06:39.809: Position 3: MB66
+21:06:39.812: Position 4: SD19
+21:06:39.813: Position 5: TW17
+21:06:39.813: Position 6: JO62
+21:06:39.813: Position 7: GM68
+21:06:39.814: Position 8: QX04
+21:06:56.687: Message received: Yes We CaNN,2000,0,AAAA
