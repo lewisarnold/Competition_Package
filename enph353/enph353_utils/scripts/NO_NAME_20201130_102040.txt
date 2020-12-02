@@ -1,0 +1,9 @@
+10:20:40.176: Position 1: QE72
+10:20:40.176: Position 2: BJ90
+10:20:40.176: Position 3: RU11
+10:20:40.179: Position 4: TX66
+10:20:40.180: Position 5: HJ41
+10:20:40.180: Position 6: PQ61
+10:20:40.180: Position 7: IR48
+10:20:40.181: Position 8: DD34
+10:20:55.806: Message received: Yes We CaNN,2000,0,AAAA

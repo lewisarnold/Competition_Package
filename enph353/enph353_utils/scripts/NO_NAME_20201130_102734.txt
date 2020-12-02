@@ -1,0 +1,9 @@
+10:27:34.786: Position 1: NS06
+10:27:34.786: Position 2: OI86
+10:27:34.786: Position 3: XN50
+10:27:34.788: Position 4: ZU89
+10:27:34.789: Position 5: CE59
+10:27:34.791: Position 6: AA01
+10:27:34.791: Position 7: GK23
+10:27:34.792: Position 8: XB01
+10:27:50.335: Message received: Yes We CaNN,2000,0,AAAA

@@ -1,0 +1,9 @@
+10:19:45.554: Position 1: KO88
+10:19:45.555: Position 2: LZ50
+10:19:45.555: Position 3: KN79
+10:19:45.555: Position 4: ZB41
+10:19:45.556: Position 5: JK48
+10:19:45.556: Position 6: AE90
+10:19:45.559: Position 7: GD00
+10:19:45.559: Position 8: ZM08
+10:20:00.894: Message received: Yes We CaNN,2000,0,AAAA

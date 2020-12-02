@@ -1,0 +1,9 @@
+10:31:14.381: Position 1: ZK96
+10:31:14.382: Position 2: PY88
+10:31:14.382: Position 3: ZT03
+10:31:14.383: Position 4: GM53
+10:31:14.383: Position 5: UG90
+10:31:14.384: Position 6: XM61
+10:31:14.384: Position 7: HH53
+10:31:14.384: Position 8: HY00
+10:31:29.784: Message received: Yes We CaNN,2000,0,AAAA

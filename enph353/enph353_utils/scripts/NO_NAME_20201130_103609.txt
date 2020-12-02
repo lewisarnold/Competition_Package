@@ -1,0 +1,9 @@
+10:36:09.596: Position 1: BM67
+10:36:09.596: Position 2: CR73
+10:36:09.596: Position 3: PY77
+10:36:09.598: Position 4: GA73
+10:36:09.599: Position 5: RK44
+10:36:09.599: Position 6: DV27
+10:36:09.601: Position 7: LG99
+10:36:09.601: Position 8: GA50
+10:36:21.510: Message received: Yes We CaNN,2000,0,AAAA

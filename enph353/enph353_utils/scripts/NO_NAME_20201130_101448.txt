@@ -1,0 +1,9 @@
+10:14:48.090: Position 1: VW74
+10:14:48.090: Position 2: PO14
+10:14:48.091: Position 3: AZ26
+10:14:48.092: Position 4: EE46
+10:14:48.093: Position 5: HD40
+10:14:48.093: Position 6: MI86
+10:14:48.093: Position 7: UC55
+10:14:48.093: Position 8: KH64
+10:14:55.367: Message received: Yes We CaNN,2000,0,AAAA

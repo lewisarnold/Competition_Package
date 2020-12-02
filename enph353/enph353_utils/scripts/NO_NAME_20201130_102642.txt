@@ -1,0 +1,9 @@
+10:26:42.351: Position 1: XC67
+10:26:42.351: Position 2: LC70
+10:26:42.351: Position 3: NB40
+10:26:42.354: Position 4: SV66
+10:26:42.354: Position 5: QN30
+10:26:42.355: Position 6: UI58
+10:26:42.355: Position 7: FO42
+10:26:42.355: Position 8: LX35
+10:26:54.865: Message received: Yes We CaNN,2000,0,AAAA

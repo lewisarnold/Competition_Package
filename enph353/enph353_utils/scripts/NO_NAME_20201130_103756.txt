@@ -1,0 +1,9 @@
+10:37:56.648: Position 1: SF50
+10:37:56.648: Position 2: LB64
+10:37:56.649: Position 3: MY88
+10:37:56.649: Position 4: PQ12
+10:37:56.649: Position 5: AD95
+10:37:56.650: Position 6: TF76
+10:37:56.650: Position 7: HN97
+10:37:56.650: Position 8: UC78
+10:38:16.471: Message received: Yes We CaNN,2000,0,AAAA

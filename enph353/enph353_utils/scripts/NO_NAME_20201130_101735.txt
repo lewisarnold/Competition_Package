@@ -1,0 +1,9 @@
+10:17:35.482: Position 1: GM45
+10:17:35.483: Position 2: MQ66
+10:17:35.483: Position 3: FS07
+10:17:35.484: Position 4: HK17
+10:17:35.485: Position 5: JT10
+10:17:35.485: Position 6: GN24
+10:17:35.485: Position 7: IY54
+10:17:35.485: Position 8: MS17
+10:17:48.607: Message received: Yes We CaNN,2000,0,AAAA

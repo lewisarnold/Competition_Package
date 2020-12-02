@@ -1,0 +1,9 @@
+10:22:27.780: Position 1: RQ76
+10:22:27.780: Position 2: GF54
+10:22:27.781: Position 3: YK70
+10:22:27.782: Position 4: JR12
+10:22:27.782: Position 5: TQ32
+10:22:27.782: Position 6: PU18
+10:22:27.782: Position 7: QA20
+10:22:27.783: Position 8: HH87
+10:22:44.835: Message received: Yes We CaNN,2000,0,AAAA

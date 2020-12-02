@@ -1,0 +1,9 @@
+10:13:46.369: Position 1: UV20
+10:13:46.369: Position 2: QQ21
+10:13:46.370: Position 3: CC12
+10:13:46.371: Position 4: TH00
+10:13:46.372: Position 5: OG32
+10:13:46.372: Position 6: FP86
+10:13:46.372: Position 7: WV72
+10:13:46.373: Position 8: OZ17
+10:14:11.060: Message received: Yes We CaNN,2000,0,AAAA

@@ -1,0 +1,9 @@
+10:30:18.496: Position 1: BU02
+10:30:18.497: Position 2: JD13
+10:30:18.497: Position 3: VW03
+10:30:18.497: Position 4: JC41
+10:30:18.497: Position 5: AC77
+10:30:18.498: Position 6: EB49
+10:30:18.498: Position 7: OV97
+10:30:18.498: Position 8: OC55
+10:30:34.650: Message received: Yes We CaNN,2000,0,AAAA

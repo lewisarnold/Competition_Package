@@ -1,0 +1,9 @@
+10:40:16.048: Position 1: HL78
+10:40:16.048: Position 2: HY29
+10:40:16.048: Position 3: FE85
+10:40:16.050: Position 4: IG95
+10:40:16.051: Position 5: BP84
+10:40:16.051: Position 6: KG37
+10:40:16.051: Position 7: IE64
+10:40:16.051: Position 8: FY36
+10:40:32.880: Message received: Yes We CaNN,2000,0,AAAA

@@ -1,0 +1,9 @@
+10:34:10.962: Position 1: CZ50
+10:34:10.962: Position 2: ZV48
+10:34:10.962: Position 3: YO68
+10:34:10.965: Position 4: SX89
+10:34:10.965: Position 5: PC06
+10:34:10.966: Position 6: GP93
+10:34:10.966: Position 7: IT03
+10:34:10.966: Position 8: BF58
+10:34:27.887: Message received: Yes We CaNN,2000,0,AAAA

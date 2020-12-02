@@ -1,0 +1,9 @@
+10:29:25.667: Position 1: AC07
+10:29:25.667: Position 2: HK18
+10:29:25.667: Position 3: PC92
+10:29:25.670: Position 4: BR72
+10:29:25.670: Position 5: UU96
+10:29:25.671: Position 6: VZ76
+10:29:25.671: Position 7: UI99
+10:29:25.671: Position 8: TS15
+10:29:40.363: Message received: Yes We CaNN,2000,0,AAAA
