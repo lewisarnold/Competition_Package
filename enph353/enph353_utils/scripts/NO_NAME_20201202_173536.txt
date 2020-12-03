@@ -1,0 +1,9 @@
+17:35:36.092: Position 1: RH34
+17:35:36.093: Position 2: SD14
+17:35:36.093: Position 3: OW35
+17:35:36.096: Position 4: QQ14
+17:35:36.096: Position 5: FL32
+17:35:36.096: Position 6: BV20
+17:35:36.096: Position 7: QW05
+17:35:36.097: Position 8: VK98
+17:35:49.113: Message received: Yes We CaNN,2000,0,AAAA

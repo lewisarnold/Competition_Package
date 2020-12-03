@@ -1,0 +1,28 @@
+17:08:56.001: Position 1: RG05
+17:08:56.001: Position 2: PW18
+17:08:56.001: Position 3: SN79
+17:08:56.002: Position 4: YT17
+17:08:56.002: Position 5: EW92
+17:08:56.003: Position 6: PV22
+17:08:56.003: Position 7: UW02
+17:08:56.003: Position 8: TS23
+17:09:06.737: Message received: Yes We CaNN,2000,0,AAAA
+17:09:06.738: Timer started.
+17:09:06.762: First command velocity received.
+17:09:07.807: Message received: Yes We CaNN,2000,2,PW18
+17:09:07.809: Awarded: 6 pts
+17:09:07.810: Team total: 6 pts
+17:09:09.320: Message received: Yes We CaNN,2000,3,SN74
+17:09:09.321: Awarded: 0 pts
+17:09:16.428: Message received: Yes We CaNN,2000,4,YT17
+17:09:16.429: Awarded: 6 pts
+17:09:16.431: Team total: 12 pts
+17:09:18.364: Message received: Yes We CaNN,2000,5,EW92
+17:09:18.366: Awarded: 6 pts
+17:09:18.369: Team total: 18 pts
+17:09:20.043: Message received: Yes We CaNN,2000,6,PV22
+17:09:20.044: Awarded: 6 pts
+17:09:20.047: Team total: 24 pts
+17:09:26.676: Message received: Yes We CaNN,2000,1,RG05
+17:09:26.677: Awarded: 6 pts
+17:09:26.678: Team total: 30 pts

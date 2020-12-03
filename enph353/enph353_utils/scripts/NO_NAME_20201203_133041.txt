@@ -1,0 +1,9 @@
+13:30:41.377: Position 1: EH52
+13:30:41.378: Position 2: WQ18
+13:30:41.378: Position 3: EW74
+13:30:41.380: Position 4: PS20
+13:30:41.385: Position 5: BY76
+13:30:41.386: Position 6: ZY29
+13:30:41.386: Position 7: JY55
+13:30:41.387: Position 8: VB06
+13:30:56.787: Message received: Yes We CaNN,2000,0,AAAA

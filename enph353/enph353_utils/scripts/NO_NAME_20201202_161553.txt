@@ -1,0 +1,9 @@
+16:15:53.034: Position 1: DS65
+16:15:53.034: Position 2: LM01
+16:15:53.034: Position 3: MI37
+16:15:53.036: Position 4: CV04
+16:15:53.037: Position 5: JT93
+16:15:53.037: Position 6: JD36
+16:15:53.038: Position 7: JQ50
+16:15:53.038: Position 8: UH97
+16:16:17.771: Message received: Yes We CaNN,2000,0,AAAA

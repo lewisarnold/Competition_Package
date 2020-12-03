@@ -1,0 +1,9 @@
+17:34:27.889: Position 1: WZ27
+17:34:27.890: Position 2: FO67
+17:34:27.890: Position 3: NE80
+17:34:27.890: Position 4: TQ19
+17:34:27.890: Position 5: AU03
+17:34:27.891: Position 6: EI76
+17:34:27.891: Position 7: BV74
+17:34:27.892: Position 8: EB28
+17:34:43.210: Message received: Yes We CaNN,2000,0,AAAA

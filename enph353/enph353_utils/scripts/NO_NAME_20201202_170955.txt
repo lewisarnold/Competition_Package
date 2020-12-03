@@ -1,0 +1,9 @@
+17:09:55.693: Position 1: PD77
+17:09:55.693: Position 2: SG05
+17:09:55.693: Position 3: WT50
+17:09:55.695: Position 4: GQ65
+17:09:55.696: Position 5: BS75
+17:09:55.696: Position 6: AU36
+17:09:55.696: Position 7: HO43
+17:09:55.697: Position 8: UR83
+17:10:07.928: Message received: Yes We CaNN,2000,0,AAAA

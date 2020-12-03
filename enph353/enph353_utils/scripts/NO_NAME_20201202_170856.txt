@@ -1,0 +1,9 @@
+17:08:56.001: Position 1: RG05
+17:08:56.001: Position 2: PW18
+17:08:56.001: Position 3: SN79
+17:08:56.002: Position 4: YT17
+17:08:56.002: Position 5: EW92
+17:08:56.003: Position 6: PV22
+17:08:56.003: Position 7: UW02
+17:08:56.003: Position 8: TS23
+17:09:06.737: Message received: Yes We CaNN,2000,0,AAAA

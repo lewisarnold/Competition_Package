@@ -1,0 +1,9 @@
+17:41:54.274: Position 1: PG26
+17:41:54.275: Position 2: CX23
+17:41:54.275: Position 3: FX53
+17:41:54.277: Position 4: CW90
+17:41:54.278: Position 5: UX15
+17:41:54.278: Position 6: AZ97
+17:41:54.278: Position 7: JE27
+17:41:54.279: Position 8: CQ67
+17:42:09.194: Message received: Yes We CaNN,2000,0,AAAA

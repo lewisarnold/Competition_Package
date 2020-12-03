@@ -1,0 +1,9 @@
+15:21:46.621: Position 1: YJ78
+15:21:46.621: Position 2: LD54
+15:21:46.621: Position 3: ZG24
+15:21:46.624: Position 4: CS70
+15:21:46.624: Position 5: UC87
+15:21:46.624: Position 6: NQ55
+15:21:46.625: Position 7: GK43
+15:21:46.625: Position 8: CO35
+15:21:52.871: Message received: Yes We CaNN,2000,0,AAAA

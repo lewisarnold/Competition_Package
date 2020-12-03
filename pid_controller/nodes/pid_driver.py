@@ -167,7 +167,6 @@ class RobotDriver():
     Robot can be driven with drive_robot()
     """
 
-
     def __init__(self):
         """
         Sets up all the parameters for the class
@@ -194,22 +193,16 @@ class RobotDriver():
         self.start_turning_time = None
         self.turning_initiated = False
 
-        #TODO:
         self.completed_turn = False
-        #self.completed_turn = True
 
         # whether the pedestrian is clear from the road
         self.pedestrian_aside = True
 
         # True when we go to the inside loop
-        # TODO:
         self.on_inside = False
-        #self.on_inside = True
 
         # True when the truck has been spotted in the designated spot
         self.truck_known = False
-        # TODO:
-        #self.truck_known = True
 
         # True when the course has been run
         self.finished = False
@@ -240,7 +233,6 @@ class RobotDriver():
         rospy.sleep(0.05)
 
         # Hardcode turn sequence so robot goes left off the start
-        # TODO:
         self.initial_turn_sequence()
 
         # Subscribe to images
@@ -249,7 +241,6 @@ class RobotDriver():
         # Control now happens from the on_image_receive callback
         while not self.timer_stopped and not rospy.core.is_shutdown():
             rospy.rostime.wallsleep(0.5)
-        #rospy.spin()
 
     def on_image_receive(self, camera_image_raw):
         """
@@ -320,9 +311,6 @@ class RobotDriver():
                     self.truck_known = True
                     self.start_turning_time = rospy.get_time()
 
-                # cv2.imshow("", self.cv_raw)
-                # cv2.waitKey()
-
             # Now we have seen the truck, so it's time to go
             else:
                 # If we haven't finished the second half of the turn, finish it now
@@ -363,32 +351,9 @@ class RobotDriver():
 
         mask_bottom = cv2.inRange(vision_square_bottom, TRUCK_COLOUR_LOWER_BOUND_MIDDLE_AREA,
                                   TRUCK_COLOUR_UPPER_BOUND_MIDDLE_AREA)
-        # if (np.average(mask_top) > TRUCK_THRESHOLD_TOP or np.average(mask_corner) > TRUCK_THRESHOLD_CORNER) and np.average(
-        #     mask_bottom) < TRUCK_THRESHOLD_BOTTOM:
-        #     print("top" + str(np.average(mask_top)))
-        #     print("bottom" + str(np.average(mask_bottom)))
-        #     print("corner" + str(np.average(mask_corner)))
-        #     print("BOTTOM_THRESH" + str(TRUCK_THRESHOLD_BOTTOM))
-        #     print("BOOL" + str(np.average(
-        #     mask_bottom) < TRUCK_THRESHOLD_BOTTOM))
 
-        # print(np.average(mask_corner))
         return np.average(mask_top) > TRUCK_THRESHOLD_TOP and np.average(
             mask_bottom) < TRUCK_THRESHOLD_BOTTOM
-
-        # if np.average(mask_top) > TRUCK_THRESHOLD_1:
-        #     print(np.average(mask_bottom))
-        # #print(np.average(mask_top))
-
-        # pts = np.array([[TRUCK_MONITOR_ZONE_2_X[0], TRUCK_MONITOR_ZONE_2_Y[0]],
-        #                 [TRUCK_MONITOR_ZONE_2_X[0], TRUCK_MONITOR_ZONE_2_Y[1]],
-        #                 [TRUCK_MONITOR_ZONE_2_X[1], TRUCK_MONITOR_ZONE_2_Y[1]],
-        #                 [TRUCK_MONITOR_ZONE_2_X[1], TRUCK_MONITOR_ZONE_2_Y[0]]])
-        #
-        # pts = pts.reshape((-1, 1, 2))
-        #
-        # cv2.imshow("", cv2.polylines(self.cv_raw, [pts], True, (255, 0, 0), 3))
-        # cv2.waitKey(1)
 
     def turn_available(self):
         """
@@ -400,19 +365,6 @@ class RobotDriver():
         mask = cv2.inRange(vision_square, ROAD_COLOUR_LOWER_BOUND, ROAD_COLOUR_UPPER_BOUND)
 
         return np.average(mask) > TURNING_THRESHOLD
-
-        # print(np.average(mask))
-        #
-        # pts = np.array([[TURNING_MONITOR_ZONE_X[0], TURNING_MONITOR_ZONE_Y[0]],
-        #                 [TURNING_MONITOR_ZONE_X[0], TURNING_MONITOR_ZONE_Y[1]],
-        #                 [TURNING_MONITOR_ZONE_X[1], TURNING_MONITOR_ZONE_Y[1]],
-        #                 [TURNING_MONITOR_ZONE_X[1], TURNING_MONITOR_ZONE_Y[0]]])
-        #
-        # pts = pts.reshape((-1, 1, 2))
-        #
-        # cv2.imshow("", cv2.polylines(self.cv_raw, [pts], True, (255, 0, 0), 1))
-        # cv2.imshow("mask", mask)
-        # cv2.waitKey(1)
 
     def safe_to_drive_through_crosswalk(self):
         """
@@ -485,17 +437,6 @@ class RobotDriver():
         # The pedestrian is not in the vision section, so it is clear and return True
         return True
 
-        # pts = np.array([[PEDESTRAIN_MONITOR_ZONE_X[0], PEDESTRAIN_MONITOR_ZONE_Y[0]],
-        #                 [PEDESTRAIN_MONITOR_ZONE_X[0], PEDESTRAIN_MONITOR_ZONE_Y[1]],
-        #                 [PEDESTRAIN_MONITOR_ZONE_X[1], PEDESTRAIN_MONITOR_ZONE_Y[1]],
-        #                 [PEDESTRAIN_MONITOR_ZONE_X[1], PEDESTRAIN_MONITOR_ZONE_Y[0]]])
-        #
-        # pts = pts.reshape((-1, 1, 2))
-        #
-        # #cv2.imshow("", cv2.polylines(self.cv_raw, [pts], True, (255, 0, 0), 1))
-        # cv2.imshow("mask", mask)
-        # cv2.waitKey(1)
-
     def activate_timer(self, start):
         """
         Start or stop the timer
@@ -542,18 +483,12 @@ class RobotDriver():
 
             predicted_license_plate_number = self.License_Plate_Reader.license_read(license_plate)
 
-
-            #self.save_plate(license_plate, str(true_license_plate_number), DATA_PLATE_FILE_PATH)
-
             self.publish_plate(location, str(predicted_license_plate_number))
 
             if self.parked_car_counter >= len(PARKED_CAR_ORDER):
                 rospy.sleep(0.05)
                 self.finished = True
                 print("finished")
-
-            # cv2.imshow(license_plate_number, license_plate)
-            # cv2.waitKey(1)
 
     def find_license_plate(self, side):
         """
@@ -574,18 +509,6 @@ class RobotDriver():
 
         return license_plate
 
-        # pts = np.array([[LICENSE_PLATE_CAR_VISION_X[0] + left, LICENSE_PLATE_CAR_VISION_Y[0] + top],
-        #        [LICENSE_PLATE_CAR_VISION_X[0] + left, LICENSE_PLATE_CAR_VISION_Y[0] + top + LICENSE_PLATE_HEIGHT],
-        #        [LICENSE_PLATE_CAR_VISION_X[0] + right, LICENSE_PLATE_CAR_VISION_Y[0] + top + LICENSE_PLATE_HEIGHT],
-        #        [LICENSE_PLATE_CAR_VISION_X[0] + right, LICENSE_PLATE_CAR_VISION_Y[0] + top]])
-        #
-        # pts = pts.reshape((-1, 1, 2))
-        #
-        # # cv2.imshow("", cv2.polylines(self.cv_raw, [pts], True, (255, 0, 0), 1))
-        # cv2.imshow("main", self.cv_raw)
-        # cv2.imshow(str(location), license_plate)
-        # cv2.waitKey(1)
-
     @staticmethod
     def save_plate(image, name, path):
         """
@@ -594,8 +517,6 @@ class RobotDriver():
         :param name: the name of the plate file
         """
         cv2.imwrite(path + name + ".png", image)
-
-
 
     def find_edge_of_label(self, side):
         """
@@ -663,9 +584,6 @@ class RobotDriver():
         if rospy.get_time() - self.last_car_time < MIN_TIME_BETWEEN_CARS:
             return False, -1
 
-
-
-
         if side == LEFT:
             vision_section = self.cv_raw[PARKED_CAR_VISION_LEFT_Y[0]:PARKED_CAR_VISION_LEFT_Y[1],
                              PARKED_CAR_VISION_LEFT_X[0]:PARKED_CAR_VISION_LEFT_X[1]]
@@ -683,22 +601,6 @@ class RobotDriver():
         car_mask_total = car_mask_1 + car_mask_2 + car_mask_3
 
         vision_section_avg = np.average(car_mask_total)
-
-        # pts = np.array([[PARKED_CAR_VISION_RIGHT_X[0], PARKED_CAR_VISION_RIGHT_Y[0]],
-        #                 [PARKED_CAR_VISION_RIGHT_X[0], PARKED_CAR_VISION_RIGHT_Y[1]],
-        #                 [PARKED_CAR_VISION_RIGHT_X[1], PARKED_CAR_VISION_RIGHT_Y[1]],
-        #                 [PARKED_CAR_VISION_RIGHT_X[1], PARKED_CAR_VISION_RIGHT_Y[0]]])
-        #
-        # pts = pts.reshape((-1, 1, 2))
-
-        # if side == RIGHT:
-        # cv2.imshow("", cv2.polylines(self.cv_raw, [pts], True, (255, 0, 0), 3))
-
-        # cv2.imshow("mask", car_mask_total)
-        # cv2.waitKey(1)
-
-        # if vision_section_avg > 9:
-        # cv2.waitKey()
 
         if vision_section_avg > PARKED_CAR_AVG_THRESHOLD_SINGLE:
             location_id = PARKED_CAR_ORDER[self.parked_car_counter]

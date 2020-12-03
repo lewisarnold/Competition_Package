@@ -1,0 +1,9 @@
+15:31:08.879: Position 1: LB98
+15:31:08.880: Position 2: YU11
+15:31:08.880: Position 3: SH64
+15:31:08.880: Position 4: PA18
+15:31:08.881: Position 5: RN17
+15:31:08.881: Position 6: QD38
+15:31:08.881: Position 7: MJ14
+15:31:08.881: Position 8: OC35
+15:31:22.726: Message received: Yes We CaNN,2000,0,AAAA

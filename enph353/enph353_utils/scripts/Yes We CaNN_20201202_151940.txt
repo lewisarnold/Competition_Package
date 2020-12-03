@@ -1,0 +1,67 @@
+15:19:18.904: Position 1: GH43
+15:19:18.905: Position 2: PH95
+15:19:18.905: Position 3: DQ80
+15:19:18.906: Position 4: RL32
+15:19:18.906: Position 5: PF10
+15:19:18.907: Position 6: GE65
+15:19:18.907: Position 7: HG04
+15:19:18.907: Position 8: CS81
+15:19:40.515: Message received: Yes We CaNN,2000,0,AAAA
+15:19:40.516: Timer started.
+15:19:40.540: First command velocity received.
+15:19:41.551: Message received: Yes We CaNN,2000,2,PH95
+15:19:41.551: Awarded: 6 pts
+15:19:41.553: Team total: 6 pts
+15:19:41.581: Message received: Yes We CaNN,2000,2,NI95
+15:19:41.582: Awarded: 0 pts
+15:19:41.583: Team total: 0 pts
+15:19:42.855: Message received: Yes We CaNN,2000,3,DQ80
+15:19:42.856: Awarded: 6 pts
+15:19:42.856: Team total: 6 pts
+15:19:42.908: Message received: Yes We CaNN,2000,3,XL40
+15:19:42.909: Awarded: 0 pts
+15:19:42.909: Team total: 0 pts
+15:19:47.300: Message received: Yes We CaNN,2000,4,RL32
+15:19:47.301: Awarded: 6 pts
+15:19:47.302: Team total: 6 pts
+15:19:49.058: Message received: Yes We CaNN,2000,4,PF10
+15:19:49.060: Awarded: 0 pts
+15:19:49.063: Team total: 0 pts
+15:19:50.659: Message received: Yes We CaNN,2000,4,GE65
+15:19:50.660: Awarded: 0 pts
+15:19:50.708: Message received: Yes We CaNN,2000,4,JL65
+15:19:50.710: Awarded: 0 pts
+15:19:55.916: Message received: Yes We CaNN,2000,5,GH43
+15:19:55.917: Awarded: 0 pts
+15:19:57.648: Message received: Yes We CaNN,2000,5,PH95
+15:19:57.649: Awarded: 0 pts
+15:19:59.205: Message received: Yes We CaNN,2000,5,OQ80
+15:19:59.206: Awarded: 0 pts
+15:19:59.259: Message received: Yes We CaNN,2000,5,PL19
+15:19:59.260: Awarded: 0 pts
+15:20:02.470: Message received: Yes We CaNN,2000,6,RL32
+15:20:02.471: Awarded: 0 pts
+15:20:04.296: Message received: Yes We CaNN,2000,6,PF10
+15:20:04.298: Awarded: 0 pts
+15:20:05.869: Message received: Yes We CaNN,2000,6,GE65
+15:20:05.871: Awarded: 6 pts
+15:20:05.874: Team total: 6 pts
+15:20:11.389: Message received: Yes We CaNN,2000,6,GH43
+15:20:11.390: Awarded: 0 pts
+15:20:11.393: Team total: 0 pts
+15:20:13.207: Message received: Yes We CaNN,2000,6,PH95
+15:20:13.212: Awarded: 0 pts
+15:20:13.256: Message received: Yes We CaNN,2000,6,II65
+15:20:13.257: Awarded: 0 pts
+15:20:14.817: Message received: Yes We CaNN,2000,1,DQ80
+15:20:14.819: Awarded: 0 pts
+15:20:21.214: Message received: Yes We CaNN,2000,1,RL32
+15:20:21.216: Awarded: 0 pts
+15:20:21.257: Message received: Yes We CaNN,2000,1,RL32
+15:20:21.259: Awarded: 0 pts
+15:20:45.569: Message received: Yes We CaNN,2000,7,CS81
+15:20:45.571: Awarded: 0 pts
+15:20:48.760: Message received: Yes We CaNN,2000,7,JS04
+15:20:48.760: Awarded: 0 pts
+15:20:48.796: Message received: Yes We CaNN,2000,7,HV04
+15:20:48.797: Awarded: 0 pts

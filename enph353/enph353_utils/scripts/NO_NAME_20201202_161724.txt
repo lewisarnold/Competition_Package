@@ -1,0 +1,9 @@
+16:17:24.922: Position 1: XY95
+16:17:24.922: Position 2: PF22
+16:17:24.922: Position 3: FN82
+16:17:24.925: Position 4: AX68
+16:17:24.927: Position 5: WJ39
+16:17:24.927: Position 6: PD46
+16:17:24.927: Position 7: IJ55
+16:17:24.927: Position 8: XC40
+16:17:37.760: Message received: Yes We CaNN,2000,0,AAAA

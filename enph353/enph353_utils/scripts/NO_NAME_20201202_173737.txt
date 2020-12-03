@@ -1,0 +1,9 @@
+17:37:37.996: Position 1: UV74
+17:37:37.996: Position 2: BP89
+17:37:37.997: Position 3: LT12
+17:37:37.997: Position 4: NM99
+17:37:37.998: Position 5: YE62
+17:37:37.998: Position 6: XQ81
+17:37:37.998: Position 7: BR71
+17:37:37.999: Position 8: MP95
+17:37:54.877: Message received: Yes We CaNN,2000,0,AAAA

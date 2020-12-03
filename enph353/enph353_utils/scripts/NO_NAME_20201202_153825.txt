@@ -1,0 +1,9 @@
+15:38:25.936: Position 1: FA51
+15:38:25.937: Position 2: UY11
+15:38:25.937: Position 3: WZ05
+15:38:25.937: Position 4: OP58
+15:38:25.939: Position 5: PX05
+15:38:25.939: Position 6: ZI66
+15:38:25.940: Position 7: HO21
+15:38:25.940: Position 8: KR20
+15:38:47.174: Message received: Yes We CaNN,2000,0,AAAA

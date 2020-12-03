@@ -1,7 +1,0 @@
-<launch>
-        <node pkg="driving_controller" type="velocity_commander.py" name="my_commander">
-        </node>
-
-	<node pkg="driving_controller" type="listener.py" name="my_listener">
-        </node>
-</launch>

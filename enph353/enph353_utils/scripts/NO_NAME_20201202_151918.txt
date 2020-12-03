@@ -1,0 +1,9 @@
+15:19:18.904: Position 1: GH43
+15:19:18.905: Position 2: PH95
+15:19:18.905: Position 3: DQ80
+15:19:18.906: Position 4: RL32
+15:19:18.906: Position 5: PF10
+15:19:18.907: Position 6: GE65
+15:19:18.907: Position 7: HG04
+15:19:18.907: Position 8: CS81
+15:19:40.515: Message received: Yes We CaNN,2000,0,AAAA

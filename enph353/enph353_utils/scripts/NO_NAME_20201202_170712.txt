@@ -1,0 +1,9 @@
+17:07:12.871: Position 1: FL88
+17:07:12.872: Position 2: OT65
+17:07:12.872: Position 3: VQ91
+17:07:12.874: Position 4: IJ71
+17:07:12.875: Position 5: UD46
+17:07:12.876: Position 6: VS19
+17:07:12.876: Position 7: RO77
+17:07:12.876: Position 8: LX03
+17:07:46.670: Message received: Yes We CaNN,2000,0,AAAA

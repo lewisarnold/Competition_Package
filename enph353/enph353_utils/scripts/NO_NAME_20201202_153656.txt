@@ -1,0 +1,9 @@
+15:36:56.706: Position 1: UR58
+15:36:56.706: Position 2: KF71
+15:36:56.707: Position 3: ZU03
+15:36:56.707: Position 4: KW40
+15:36:56.708: Position 5: EP97
+15:36:56.708: Position 6: HT09
+15:36:56.708: Position 7: AZ53
+15:36:56.709: Position 8: MY72
+15:37:12.765: Message received: Yes We CaNN,2000,0,AAAA
