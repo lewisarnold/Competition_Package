@@ -1,0 +1,10 @@
+10:32:05.993: Position 1: FZ71
+10:32:05.993: Position 2: TS52
+10:32:05.993: Position 3: VF63
+10:32:05.996: Position 4: PV87
+10:32:05.999: Position 5: CP75
+10:32:06.001: Position 6: UP81
+10:32:06.004: Position 7: DT41
+10:32:06.005: Position 8: VE78
+10:32:06.176: First command velocity received.
+10:32:25.069: Message received: Yes We CaNN,2000,0,AAAA

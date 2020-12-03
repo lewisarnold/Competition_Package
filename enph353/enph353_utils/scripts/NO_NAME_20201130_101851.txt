@@ -1,0 +1,9 @@
+10:18:51.425: Position 1: EL89
+10:18:51.425: Position 2: DB65
+10:18:51.425: Position 3: UL29
+10:18:51.427: Position 4: KZ09
+10:18:51.427: Position 5: SC05
+10:18:51.427: Position 6: KY92
+10:18:51.428: Position 7: YU00
+10:18:51.428: Position 8: VT21
+10:19:06.219: Message received: Yes We CaNN,2000,0,AAAA

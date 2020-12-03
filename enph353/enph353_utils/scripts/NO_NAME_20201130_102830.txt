@@ -1,0 +1,9 @@
+10:28:30.109: Position 1: ZC76
+10:28:30.109: Position 2: LN61
+10:28:30.110: Position 3: AN69
+10:28:30.110: Position 4: HC01
+10:28:30.110: Position 5: PT69
+10:28:30.110: Position 6: RQ40
+10:28:30.111: Position 7: DZ47
+10:28:30.111: Position 8: UR88
+10:28:45.750: Message received: Yes We CaNN,2000,0,AAAA

@@ -1,0 +1,36 @@
+10:19:45.554: Position 1: KO88
+10:19:45.555: Position 2: LZ50
+10:19:45.555: Position 3: KN79
+10:19:45.555: Position 4: ZB41
+10:19:45.556: Position 5: JK48
+10:19:45.556: Position 6: AE90
+10:19:45.559: Position 7: GD00
+10:19:45.559: Position 8: ZM08
+10:20:00.894: Message received: Yes We CaNN,2000,0,AAAA
+10:20:00.899: Timer started.
+10:20:00.920: First command velocity received.
+10:20:01.843: Message received: Yes We CaNN,2000,2,LZ50
+10:20:01.844: Awarded: 6 pts
+10:20:01.846: Team total: 6 pts
+10:20:03.248: Message received: Yes We CaNN,2000,3,KN79
+10:20:03.250: Awarded: 6 pts
+10:20:03.252: Team total: 12 pts
+10:20:07.679: Message received: Yes We CaNN,2000,4,ZB41
+10:20:07.680: Awarded: 6 pts
+10:20:07.682: Team total: 18 pts
+10:20:09.481: Message received: Yes We CaNN,2000,5,JK48
+10:20:09.482: Awarded: 6 pts
+10:20:09.484: Team total: 24 pts
+10:20:11.064: Message received: Yes We CaNN,2000,6,AE90
+10:20:11.065: Awarded: 6 pts
+10:20:11.068: Team total: 30 pts
+10:20:16.385: Message received: Yes We CaNN,2000,1,KO88
+10:20:16.386: Awarded: 6 pts
+10:20:16.390: Team total: 36 pts
+10:20:23.165: Message received: Yes We CaNN,2000,7,GP00
+10:20:23.166: Awarded: 0 pts
+10:20:26.387: Message received: Yes We CaNN,2000,8,ZM08
+10:20:26.389: Awarded: 8 pts
+10:20:26.389: Team total: 44 pts
+10:20:26.417: Message received: Yes We CaNN,2000,-1,ZZZZ
+10:20:26.418: Timer stopped: 43.803sec sim time (real time: 25sec).

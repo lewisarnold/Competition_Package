@@ -1,0 +1,9 @@
+10:33:11.272: Position 1: XQ52
+10:33:11.272: Position 2: AW83
+10:33:11.272: Position 3: SI77
+10:33:11.274: Position 4: IL68
+10:33:11.274: Position 5: RO59
+10:33:11.275: Position 6: FR68
+10:33:11.275: Position 7: KA52
+10:33:11.275: Position 8: TE34
+10:33:28.206: Message received: Yes We CaNN,2000,0,AAAA

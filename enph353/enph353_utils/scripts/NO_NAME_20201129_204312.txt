@@ -1,0 +1,9 @@
+20:43:12.860: Position 1: XE42
+20:43:12.860: Position 2: GJ10
+20:43:12.861: Position 3: VR27
+20:43:12.867: Position 4: AI47
+20:43:12.867: Position 5: UE61
+20:43:12.868: Position 6: NR70
+20:43:12.868: Position 7: XM61
+20:43:12.869: Position 8: GC06
+20:43:20.561: Message received: Yes We CaNN,2000,0,AAAA

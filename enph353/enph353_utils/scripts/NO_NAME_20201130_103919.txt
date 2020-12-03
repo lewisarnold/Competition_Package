@@ -1,0 +1,9 @@
+10:39:19.745: Position 1: PR97
+10:39:19.745: Position 2: AI12
+10:39:19.746: Position 3: LZ36
+10:39:19.748: Position 4: SH41
+10:39:19.748: Position 5: EC32
+10:39:19.748: Position 6: TX03
+10:39:19.748: Position 7: WB70
+10:39:19.749: Position 8: HA25
+10:39:35.332: Message received: Yes We CaNN,2000,0,AAAA

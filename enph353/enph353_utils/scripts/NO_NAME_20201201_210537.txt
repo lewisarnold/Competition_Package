@@ -1,0 +1,9 @@
+21:05:37.164: Position 1: CH44
+21:05:37.166: Position 2: KK89
+21:05:37.166: Position 3: JI71
+21:05:37.174: Position 4: QZ56
+21:05:37.181: Position 5: FD52
+21:05:37.182: Position 6: KD80
+21:05:37.182: Position 7: KN49
+21:05:37.182: Position 8: AE89
+21:05:43.519: Message received: Yes We CaNN,2000,0,AAAA

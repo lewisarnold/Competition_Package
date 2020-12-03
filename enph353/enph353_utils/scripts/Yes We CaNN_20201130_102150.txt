@@ -1,0 +1,36 @@
+10:21:35.830: Position 1: LE35
+10:21:35.830: Position 2: WF28
+10:21:35.830: Position 3: WZ35
+10:21:35.831: Position 4: AM62
+10:21:35.831: Position 5: TJ51
+10:21:35.832: Position 6: LE58
+10:21:35.832: Position 7: JF35
+10:21:35.832: Position 8: OH16
+10:21:50.523: Message received: Yes We CaNN,2000,0,AAAA
+10:21:50.525: Timer started.
+10:21:50.551: First command velocity received.
+10:21:51.501: Message received: Yes We CaNN,2000,2,WF28
+10:21:51.502: Awarded: 6 pts
+10:21:51.504: Team total: 6 pts
+10:21:52.860: Message received: Yes We CaNN,2000,3,WZ35
+10:21:52.861: Awarded: 6 pts
+10:21:52.864: Team total: 12 pts
+10:21:57.245: Message received: Yes We CaNN,2000,4,AM62
+10:21:57.245: Awarded: 6 pts
+10:21:57.247: Team total: 18 pts
+10:21:58.997: Message received: Yes We CaNN,2000,5,TJ51
+10:21:58.998: Awarded: 6 pts
+10:21:59.000: Team total: 24 pts
+10:22:00.555: Message received: Yes We CaNN,2000,6,LE58
+10:22:00.556: Awarded: 6 pts
+10:22:00.556: Team total: 30 pts
+10:22:03.857: Message received: Yes We CaNN,2000,1,LE35
+10:22:03.858: Awarded: 6 pts
+10:22:03.863: Team total: 36 pts
+10:22:12.335: Message received: Yes We CaNN,2000,7,JF35
+10:22:12.336: Awarded: 8 pts
+10:22:12.337: Team total: 44 pts
+10:22:15.548: Message received: Yes We CaNN,2000,8,OW16
+10:22:15.549: Awarded: 0 pts
+10:22:15.578: Message received: Yes We CaNN,2000,-1,ZZZZ
+10:22:15.579: Timer stopped: 42.728sec sim time (real time: 25sec).

@@ -1,0 +1,9 @@
+10:35:08.437: Position 1: ED44
+10:35:08.437: Position 2: TC45
+10:35:08.437: Position 3: ML76
+10:35:08.440: Position 4: EN33
+10:35:08.440: Position 5: HK48
+10:35:08.440: Position 6: AC30
+10:35:08.440: Position 7: BQ74
+10:35:08.440: Position 8: HD20
+10:35:24.792: Message received: Yes We CaNN,2000,0,AAAA

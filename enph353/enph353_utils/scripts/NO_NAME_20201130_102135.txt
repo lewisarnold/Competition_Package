@@ -1,0 +1,9 @@
+10:21:35.830: Position 1: LE35
+10:21:35.830: Position 2: WF28
+10:21:35.830: Position 3: WZ35
+10:21:35.831: Position 4: AM62
+10:21:35.831: Position 5: TJ51
+10:21:35.832: Position 6: LE58
+10:21:35.832: Position 7: JF35
+10:21:35.832: Position 8: OH16
+10:21:50.523: Message received: Yes We CaNN,2000,0,AAAA

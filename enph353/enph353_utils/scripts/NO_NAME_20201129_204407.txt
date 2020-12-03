@@ -1,0 +1,9 @@
+20:44:07.562: Position 1: NG24
+20:44:07.562: Position 2: RT50
+20:44:07.563: Position 3: CL21
+20:44:07.563: Position 4: KD21
+20:44:07.563: Position 5: TQ98
+20:44:07.564: Position 6: KH28
+20:44:07.564: Position 7: CZ32
+20:44:07.564: Position 8: QI61
+20:44:18.158: Message received: Yes We CaNN,2000,0,AAAA

@@ -1,0 +1,10 @@
+20:15:34.867: Position 1: EX47
+20:15:34.872: Position 2: ZR08
+20:15:34.872: Position 3: OA92
+20:15:34.879: Position 4: AE39
+20:15:34.887: Position 5: AL26
+20:15:34.887: Position 6: DT82
+20:15:34.887: Position 7: CJ23
+20:15:34.887: Position 8: TY19
+20:15:35.388: First command velocity received.
+20:15:53.529: Message received: KL,123,0,AAAA

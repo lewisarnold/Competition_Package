@@ -1,0 +1,9 @@
+10:48:54.364: Position 1: XY15
+10:48:54.364: Position 2: GX97
+10:48:54.364: Position 3: KP73
+10:48:54.365: Position 4: ED78
+10:48:54.365: Position 5: EO38
+10:48:54.365: Position 6: DW98
+10:48:54.366: Position 7: FT33
+10:48:54.366: Position 8: HR14
+10:49:11.058: Message received: Yes We CaNN,2000,0,AAAA

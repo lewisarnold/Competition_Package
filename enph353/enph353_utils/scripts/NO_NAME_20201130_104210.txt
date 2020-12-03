@@ -1,0 +1,9 @@
+10:42:10.437: Position 1: OK34
+10:42:10.437: Position 2: PE02
+10:42:10.437: Position 3: EJ39
+10:42:10.438: Position 4: PQ98
+10:42:10.438: Position 5: IH89
+10:42:10.438: Position 6: MW10
+10:42:10.439: Position 7: PH90
+10:42:10.440: Position 8: XB93
+10:42:23.166: Message received: Yes We CaNN,2000,0,AAAA

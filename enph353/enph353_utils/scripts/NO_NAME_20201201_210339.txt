@@ -1,0 +1,9 @@
+21:03:39.655: Position 1: WW85
+21:03:39.655: Position 2: PD93
+21:03:39.656: Position 3: EG41
+21:03:39.658: Position 4: JL14
+21:03:39.658: Position 5: OR42
+21:03:39.658: Position 6: WU05
+21:03:39.659: Position 7: SA71
+21:03:39.659: Position 8: VZ73
+21:03:51.661: Message received: Yes We CaNN,2000,0,AAAA

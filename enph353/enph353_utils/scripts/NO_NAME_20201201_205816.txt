@@ -1,0 +1,9 @@
+20:58:16.183: Position 1: NU52
+20:58:16.184: Position 2: GA78
+20:58:16.184: Position 3: VI78
+20:58:16.185: Position 4: YL41
+20:58:16.185: Position 5: AW26
+20:58:16.186: Position 6: CY43
+20:58:16.186: Position 7: RT17
+20:58:16.186: Position 8: XD09
+20:58:35.740: Message received: Yes We CaNN,2000,0,AAAA
